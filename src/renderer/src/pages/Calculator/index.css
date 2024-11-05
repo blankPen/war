@@ -1,0 +1,43 @@
+.deduction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 20px;
+}
+
+
+.panel {
+  border-radius: 8px;
+  height: 100%;
+  /* width: 100%; */
+  margin: 10px;
+}
+
+.form {
+  width: 240px;
+}
+
+.times {
+  width: 200px;
+  overflow: scroll;
+  padding: 8px;
+}
+
+.time {
+  padding: 10px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border-radius: 8px;
+  height: 40px;
+  margin-bottom: 10px;
+}
+
+
+.result {
+  flex: 1;
+}
