@@ -3,15 +3,16 @@ Release/obj.target/addon/src-cpp/metrosquare/probability_PIMC.o: \
   ../src-cpp/metrosquare/probability_PIMC.cpp \
   ../src-cpp/metrosquare/probability_PIMC.h \
   ../src-cpp/metrosquare/rtwtypes.h ../src-cpp/metrosquare/tmwtypes.h \
+  ../src-cpp/metrosquare/coder_array.h \
   ../src-cpp/metrosquare/metrosquare_data.h \
   ../src-cpp/metrosquare/metrosquare_initialize.h \
-  ../src-cpp/metrosquare/rt_nonfinite.h \
-  ../src-cpp/metrosquare/coder_array.h
+  ../src-cpp/metrosquare/rt_nonfinite.h ../src-cpp/metrosquare/sqrt.h
 ../src-cpp/metrosquare/probability_PIMC.cpp:
 ../src-cpp/metrosquare/probability_PIMC.h:
 ../src-cpp/metrosquare/rtwtypes.h:
 ../src-cpp/metrosquare/tmwtypes.h:
+../src-cpp/metrosquare/coder_array.h:
 ../src-cpp/metrosquare/metrosquare_data.h:
 ../src-cpp/metrosquare/metrosquare_initialize.h:
 ../src-cpp/metrosquare/rt_nonfinite.h:
-../src-cpp/metrosquare/coder_array.h:
+../src-cpp/metrosquare/sqrt.h:

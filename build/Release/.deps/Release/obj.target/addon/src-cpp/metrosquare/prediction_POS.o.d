@@ -3,16 +3,20 @@ Release/obj.target/addon/src-cpp/metrosquare/prediction_POS.o: \
   ../src-cpp/metrosquare/prediction_POS.cpp \
   ../src-cpp/metrosquare/prediction_POS.h \
   ../src-cpp/metrosquare/rtwtypes.h ../src-cpp/metrosquare/tmwtypes.h \
+  ../src-cpp/metrosquare/find.h \
   ../src-cpp/metrosquare/metrosquare_data.h \
   ../src-cpp/metrosquare/metrosquare_initialize.h \
+  ../src-cpp/metrosquare/minOrMax.h \
   ../src-cpp/metrosquare/prediction_my_error.h \
   ../src-cpp/metrosquare/rand.h ../src-cpp/metrosquare/rt_nonfinite.h
 ../src-cpp/metrosquare/prediction_POS.cpp:
 ../src-cpp/metrosquare/prediction_POS.h:
 ../src-cpp/metrosquare/rtwtypes.h:
 ../src-cpp/metrosquare/tmwtypes.h:
+../src-cpp/metrosquare/find.h:
 ../src-cpp/metrosquare/metrosquare_data.h:
 ../src-cpp/metrosquare/metrosquare_initialize.h:
+../src-cpp/metrosquare/minOrMax.h:
 ../src-cpp/metrosquare/prediction_my_error.h:
 ../src-cpp/metrosquare/rand.h:
 ../src-cpp/metrosquare/rt_nonfinite.h:

@@ -5,7 +5,8 @@ Release/obj.target/addon/src-cpp/metrosquare/my_error_square.o: \
   ../src-cpp/metrosquare/rtwtypes.h ../src-cpp/metrosquare/tmwtypes.h \
   ../src-cpp/metrosquare/find.h \
   ../src-cpp/metrosquare/metrosquare_data.h \
-  ../src-cpp/metrosquare/metrosquare_initialize.h
+  ../src-cpp/metrosquare/metrosquare_initialize.h \
+  ../src-cpp/metrosquare/rt_nonfinite.h
 ../src-cpp/metrosquare/my_error_square.cpp:
 ../src-cpp/metrosquare/my_error_square.h:
 ../src-cpp/metrosquare/rtwtypes.h:
@@ -13,3 +14,4 @@ Release/obj.target/addon/src-cpp/metrosquare/my_error_square.o: \
 ../src-cpp/metrosquare/find.h:
 ../src-cpp/metrosquare/metrosquare_data.h:
 ../src-cpp/metrosquare/metrosquare_initialize.h:
+../src-cpp/metrosquare/rt_nonfinite.h:

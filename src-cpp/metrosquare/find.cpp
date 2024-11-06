@@ -2,7 +2,7 @@
 // File: find.cpp
 //
 // MATLAB Coder version            : 5.3
-// C/C++ source code generated on  : 04-Nov-2024 13:13:25
+// C/C++ source code generated on  : 05-Nov-2024 23:16:58
 //
 
 // Include Files
@@ -11,6 +11,42 @@
 
 // Function Definitions
 //
+// Arguments    : const boolean_T x[500]
+//                int i_data[]
+//                int i_size[2]
+// Return Type  : void
+//
+namespace coder {
+void b_eml_find(const boolean_T x[500], int i_data[], int i_size[2])
+{
+  int idx;
+  int ii;
+  boolean_T exitg1;
+  idx = 0;
+  i_size[0] = 1;
+  ii = 0;
+  exitg1 = false;
+  while ((!exitg1) && (ii < 500)) {
+    if (x[ii]) {
+      idx++;
+      i_data[idx - 1] = ii + 1;
+      if (idx >= 500) {
+        exitg1 = true;
+      } else {
+        ii++;
+      }
+    } else {
+      ii++;
+    }
+  }
+  if (1 > idx) {
+    i_size[1] = 0;
+  } else {
+    i_size[1] = idx;
+  }
+}
+
+//
 // Arguments    : const boolean_T x[64]
 //                int i_data[]
 //                int *i_size
@@ -18,7 +54,6 @@
 //                int *j_size
 // Return Type  : void
 //
-namespace coder {
 void eml_find(const boolean_T x[64], int i_data[], int *i_size, int j_data[],
               int *j_size)
 {

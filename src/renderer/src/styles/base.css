@@ -73,18 +73,22 @@
   }
 } */
 
-
 body {
   /* @apply bg-background text-foreground; */
   /* font-feature-settings:
     'rlig' 1,
     'calt' 1; */
 
-  background-color: #282828;
+  /* background-color: #282828; */
 }
-
 
 #root {
   width: 100vw;
   height: 100vh;
+
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  flex-direction: column;
+  margin-bottom: 80px;
 }

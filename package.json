@@ -22,7 +22,9 @@
     "build:cpp": "node-gyp configure && node-gyp build"
   },
   "dependencies": {
+    "@ant-design/charts": "^2.2.1",
     "@ant-design/plots": "^2.3.2",
+    "@antv/g2plot": "^2.4.32",
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
     "@headlessui/react": "^2.2.0",

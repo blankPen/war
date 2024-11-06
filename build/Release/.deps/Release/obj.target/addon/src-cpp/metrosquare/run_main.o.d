@@ -8,7 +8,7 @@ Release/obj.target/addon/src-cpp/metrosquare/run_main.o: \
   ../src-cpp/metrosquare/minOrMax.h \
   ../src-cpp/metrosquare/prediction_POS.h \
   ../src-cpp/metrosquare/probability_PIMC.h \
-  ../src-cpp/metrosquare/rt_nonfinite.h
+  ../src-cpp/metrosquare/rt_nonfinite.h ../src-cpp/metrosquare/sqrt.h
 ../src-cpp/metrosquare/run_main.cpp:
 ../src-cpp/metrosquare/run_main.h:
 ../src-cpp/metrosquare/rtwtypes.h:
@@ -20,3 +20,4 @@ Release/obj.target/addon/src-cpp/metrosquare/run_main.o: \
 ../src-cpp/metrosquare/prediction_POS.h:
 ../src-cpp/metrosquare/probability_PIMC.h:
 ../src-cpp/metrosquare/rt_nonfinite.h:
+../src-cpp/metrosquare/sqrt.h:

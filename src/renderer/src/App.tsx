@@ -14,6 +14,7 @@ function App(): JSX.Element {
   const store = useAppStore()
   const Page = Pages[store.page]
 
+  const { token } = theme.useToken()
   return (
     <ConfigProvider
       theme={{
@@ -22,14 +23,18 @@ function App(): JSX.Element {
           // // Seed Token，影响范围大
           // colorPrimary: '#00b96b',
           // borderRadius: 2,
-
           // // 派生变量，影响范围小
           // colorBgContainer: '#f6ffed'
         }
       }}
     >
       {/* <Background /> */}
-      {Page && <Page />}
+      <div
+        className="container overflow-auto"
+        // style={{ background: token.colorBgLayout }}
+      >
+        {Page && <Page />}
+      </div>
     </ConfigProvider>
   )
 }

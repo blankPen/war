@@ -2,7 +2,7 @@
 // File: prediction_my_error.cpp
 //
 // MATLAB Coder version            : 5.3
-// C/C++ source code generated on  : 04-Nov-2024 13:13:25
+// C/C++ source code generated on  : 05-Nov-2024 23:16:58
 //
 
 // Include Files
@@ -11,6 +11,7 @@
 #include "metrosquare_data.h"
 #include "metrosquare_initialize.h"
 #include "rt_nonfinite.h"
+#include "sqrt.h"
 #include <cmath>
 
 // Function Definitions
@@ -25,6 +26,7 @@
 double prediction_my_error(const double v[3], const double data[64],
                            double t_known)
 {
+  creal_T dc;
   double c1;
   double c2;
   double c3;
@@ -53,7 +55,10 @@ double prediction_my_error(const double v[3], const double data[64],
                                c2 * std::sin(c3));
     sum_error += a * a;
   }
-  return std::sqrt(sum_error);
+  dc.re = sum_error;
+  dc.im = 0.0;
+  coder::b_sqrt(&dc);
+  return dc.re;
 }
 
 //

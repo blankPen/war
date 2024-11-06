@@ -3,7 +3,10 @@
 
 #include <napi.h>
 
-Napi::Value MyFunction(const Napi::CallbackInfo &info);
+Napi::Value probabilityPIMC(const Napi::CallbackInfo &info);
+
+Napi::Value calculator(const Napi::CallbackInfo &info);
+
 
 // Napi::Value MyFunction2(const Napi::CallbackInfo& info);
 

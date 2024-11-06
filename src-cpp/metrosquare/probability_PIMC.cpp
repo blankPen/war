@@ -2,17 +2,19 @@
 // File: probability_PIMC.cpp
 //
 // MATLAB Coder version            : 5.3
-// C/C++ source code generated on  : 04-Nov-2024 13:13:25
+// C/C++ source code generated on  : 05-Nov-2024 23:16:58
 //
 
 // Include Files
 #include "probability_PIMC.h"
+#include "coder_array.h"
 #include "metrosquare_data.h"
 #include "metrosquare_initialize.h"
 #include "rt_nonfinite.h"
-#include "coder_array.h"
+#include "sqrt.h"
 #include <cmath>
 #include <cstddef>
+#include <iostream>
 #include <stdio.h>
 
 // Function Declarations
@@ -82,130 +84,97 @@ static double rt_powd_snf(double u0, double u1)
 double probability_PIMC(double kr, double kb, const double data[64],
                         double t_known, double num_grid_points_r)
 {
-  coder::array<double, 2U> th_gailv;
-  coder::array<double, 1U> box;
-  coder::array<char, 2U> charStr;
-  double A_real_tmp;
-  double B_real_tmp;
-  double S_real;
-  double S_real_tmp;
-  double a;
-  double a_tmp;
-  double b_a_tmp;
-  double bsum;
-  double d;
-  double m_r;
-  double omega;
-  double qr_0;
-  double sum_gailv;
-  double t_tmp;
-  int hi;
-  int nbytes;
-  int xblockoffset;
-  if (!isInitialized_metrosquare) {
-    metrosquare_initialize();
-  }
-  qr_0 = data[32];
-  nbytes = snprintf(nullptr, 0, "%f", data[32]);
-  charStr.set_size(1, nbytes + 1);
-  snprintf(&charStr[0], (size_t)(nbytes + 1), "%f", data[32]);
-  if (1 > nbytes) {
-    nbytes = 0;
-  }
-  m_r = rt_powd_snf(10.0, -static_cast<double>(nbytes) - 1.0);
-  t_tmp = data[static_cast<int>(t_known + 1.0) - 1];
-  omega = std::sqrt(kr * kb);
-  th_gailv.set_size(1, 0);
-  sum_gailv = std::exp(-omega * t_tmp);
-  bsum = std::exp(omega * t_tmp);
-  A_real_tmp = std::exp(-omega * 0.0);
-  a_tmp = data[static_cast<int>(t_known + 1.0) + 31];
-  a = (a_tmp * A_real_tmp - data[32] * sum_gailv) / (bsum - sum_gailv);
-  B_real_tmp = std::exp(omega * 0.0);
-  b_a_tmp = std::exp(omega * data[static_cast<int>(t_known + 1.0) - 1]) -
-            std::exp(-omega * data[static_cast<int>(t_known + 1.0) - 1]);
-  sum_gailv = (data[32] * bsum - a_tmp * B_real_tmp) / b_a_tmp;
-  bsum = -std::exp(-2.0 * t_tmp * omega) + std::exp(-2.0 * omega * 0.0);
-  S_real_tmp = std::exp(2.0 * t_tmp * omega) - std::exp(2.0 * omega * 0.0);
-  S_real = (0.5 * (sum_gailv * sum_gailv) * bsum + 0.5 * (a * a) * S_real_tmp) *
-           m_r * omega;
-  d = a_tmp - num_grid_points_r;
-  hi = static_cast<int>((a_tmp + num_grid_points_r) + (1.0 - d));
-  for (nbytes = 0; nbytes < hi; nbytes++) {
-    sum_gailv = d + static_cast<double>(nbytes);
-    a = (sum_gailv * A_real_tmp - qr_0 * std::exp(-omega * t_tmp)) / b_a_tmp;
-    sum_gailv =
-        (qr_0 * std::exp(omega * t_tmp) - sum_gailv * B_real_tmp) / b_a_tmp;
-    xblockoffset = th_gailv.size(1);
-    th_gailv.set_size(1, th_gailv.size(1) + 1);
-    th_gailv[xblockoffset] = std::exp(
-        -((0.5 * (sum_gailv * sum_gailv) * bsum + 0.5 * (a * a) * S_real_tmp) *
+  double t0 = 0;
+  double qr_0 = data[32];
+  double m_r = std::pow(
+      10,
+      static_cast<int>(-std::to_string(static_cast<int>(qr_0)).length() - 1));
+  double t = data[static_cast<int>(t_known)];
+  double qr_real = data[32 + static_cast<int>(t_known)];
+  double omega = std::sqrt(kr * kb);
+  double T = t - t0;
+
+  std::vector<double> th_S_cl;
+  std::vector<double> th_gailv;
+
+  // A_real 和 B_real 的计算
+  double A_real =
+      (qr_real * std::exp(-omega * t0) - qr_0 * std::exp(-omega * t)) /
+      (std::exp(omega * T) - std::exp(-omega * T));
+  double B_real =
+      ((qr_0 * std::exp(omega * t) - qr_real * std::exp(omega * t0)) /
+       (std::exp(omega * T) - std::exp(-omega * T)));
+
+  // 提取公共计算变量
+  double exp_term1 = exp(-2 * t * omega);
+  double exp_term2 = exp(2 * t * omega);
+  double exp_term3 = exp(-2 * omega * t0);
+
+  // 计算中间变量
+  double term1 = -exp_term1 + exp_term3;
+  double term2 = exp_term2 - exp_term3;
+
+  // 计算 B_real 和 A_real 的平方
+  double B_real_squared = B_real * B_real;
+  double A_real_squared = A_real * A_real;
+
+  // 计算 S_real
+  double S_real =
+      (0.5 * B_real_squared * term1 + 0.5 * A_real_squared * term2) * m_r *
+      omega;
+  std::cout << "xxx  " << 0.5 * B_real_squared * term1 << std::endl;
+  std::cout << "xxx  " << 0.5 * A_real_squared * term2 << std::endl;
+  std::cout << "exp_term1  " << exp_term1 << std::endl;
+  std::cout << "exp_term2  " << exp_term2 << std::endl;
+  std::cout << "exp_term3  " << exp_term3 << std::endl;
+  std::cout << "term1  " << term1 << std::endl;
+  std::cout << "term2  " << term2 << std::endl;
+  std::cout << "B_real_squared  " << B_real_squared << std::endl;
+  std::cout << "A_real_squared  " << A_real_squared << std::endl;
+  std::cout << "A_real  " << A_real << std::endl;
+  std::cout << "B_real  " << B_real << std::endl;
+  std::cout << "S_real  " << S_real << std::endl;
+
+  for (double qr = qr_real - num_grid_points_r;
+       qr <= qr_real + num_grid_points_r; qr += 1) {
+    double A = (qr * std::exp(-omega * t0) - qr_0 * std::exp(-omega * t)) /
+               (std::exp(omega * T) - std::exp(-omega * T));
+    double B = ((qr_0 * std::exp(omega * t) - qr * std::exp(omega * t0)) /
+                (std::exp(omega * T) - std::exp(-omega * T)));
+    th_S_cl.push_back(
+        (0.5 * B * B * (-std::exp(-2 * t * omega) + std::exp(-2 * omega * t0)) +
+         0.5 * A * A * (std::exp(2 * t * omega) - std::exp(2 * omega * t0))) *
+            m_r * omega -
+        S_real);
+    th_gailv.push_back(std::exp(
+        -((0.5 * B * B *
+               (-std::exp(-2 * t * omega) + std::exp(-2 * omega * t0)) +
+           0.5 * A * A * (std::exp(2 * t * omega) - std::exp(2 * omega * t0))) *
               m_r * omega -
           S_real) *
-        2.0);
+        2));
   }
-  if (th_gailv.size(1) == 0) {
-    sum_gailv = 0.0;
-  } else {
-    int k;
-    int lastBlockLength;
-    int nblocks;
-    if (th_gailv.size(1) <= 1024) {
-      nbytes = th_gailv.size(1);
-      lastBlockLength = 0;
-      nblocks = 1;
-    } else {
-      nbytes = 1024;
-      nblocks = th_gailv.size(1) / 1024;
-      lastBlockLength = th_gailv.size(1) - (nblocks << 10);
-      if (lastBlockLength > 0) {
-        nblocks++;
-      } else {
-        lastBlockLength = 1024;
-      }
-    }
-    sum_gailv = th_gailv[0];
-    for (k = 2; k <= nbytes; k++) {
-      sum_gailv += th_gailv[k - 1];
-    }
-    for (nbytes = 2; nbytes <= nblocks; nbytes++) {
-      xblockoffset = (nbytes - 1) << 10;
-      bsum = th_gailv[xblockoffset];
-      if (nbytes == nblocks) {
-        hi = lastBlockLength;
-      } else {
-        hi = 1024;
-      }
-      for (k = 2; k <= hi; k++) {
-        bsum += th_gailv[(xblockoffset + k) - 1];
-      }
-      sum_gailv += bsum;
-    }
+
+  double sum_gailv = 0;
+  for (double g : th_gailv) {
+    sum_gailv += g;
   }
-  th_gailv.set_size(1, th_gailv.size(1));
-  nbytes = th_gailv.size(1) - 1;
-  for (hi = 0; hi <= nbytes; hi++) {
-    th_gailv[hi] = th_gailv[hi] / sum_gailv;
+
+  for (size_t i = 0; i < th_gailv.size(); ++i) {
+    th_gailv[i] /= sum_gailv;
   }
-  // 分柱状区间
-  sum_gailv = num_grid_points_r / 5.0;
-  // 区间宽度
-  bsum = num_grid_points_r * 2.0 / sum_gailv;
-  // 区间数量
-  nbytes = static_cast<int>(bsum);
-  box.set_size(nbytes);
-  for (hi = 0; hi < nbytes; hi++) {
-    box[hi] = 0.0;
+
+  int num_interval = num_grid_points_r / 5;
+  int num_box = (num_grid_points_r * 2) / num_interval;
+  std::vector<double> box(num_box, 0);
+
+  for (int final_pos_ridx = 0; final_pos_ridx < num_grid_points_r * 2;
+       ++final_pos_ridx) {
+    int box_i = (final_pos_ridx - 1) / num_interval + 1;
+    box[box_i - 1] += th_gailv[final_pos_ridx];
   }
-  // 建立区间进行统计
-  hi = static_cast<int>(num_grid_points_r * 2.0);
-  for (nbytes = 0; nbytes < hi; nbytes++) {
-    S_real_tmp =
-        std::trunc(((static_cast<double>(nbytes) + 1.0) - 1.0) / sum_gailv);
-    box[static_cast<int>(S_real_tmp + 1.0) - 1] =
-        box[static_cast<int>(S_real_tmp + 1.0) - 1] + th_gailv[nbytes];
-  }
-  return box[static_cast<int>(std::trunc(bsum / 2.0) + 1.0) - 1];
+
+  return box[num_box / 2];
 }
 
 //

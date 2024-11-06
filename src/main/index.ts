@@ -8,7 +8,7 @@ import {
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-// import sdk from './lib/sdk'
+import './lib/algorithm'
 
 function createWindow(): void {
   // Create the browser window.

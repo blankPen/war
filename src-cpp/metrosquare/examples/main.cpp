@@ -2,7 +2,7 @@
 // File: main.cpp
 //
 // MATLAB Coder version            : 5.3
-// C/C++ source code generated on  : 04-Nov-2024 13:13:25
+// C/C++ source code generated on  : 05-Nov-2024 23:16:58
 //
 
 /*************************************************************************/
@@ -123,6 +123,7 @@ static double argInit_real_T()
 static void main_metrosquare()
 {
   double dv[64];
+  double kb;
   double kr;
   double qb_0_tmp;
   // Initialize function 'metrosquare' input arguments.
@@ -130,7 +131,7 @@ static void main_metrosquare()
   qb_0_tmp = argInit_real_T();
   // Call the entry-point 'metrosquare'.
   argInit_32x2_real_T(dv);
-  metrosquare(dv, qb_0_tmp, qb_0_tmp, &kr, &kr);
+  metrosquare(dv, qb_0_tmp, qb_0_tmp, &kr, &kb);
 }
 
 //
@@ -160,11 +161,13 @@ static void main_prediction_POS()
 {
   double dv[64];
   double c1;
+  double c2;
+  double c3;
   // Initialize function 'prediction_POS' input arguments.
   // Initialize function input argument 'data'.
   // Call the entry-point 'prediction_POS'.
   argInit_32x2_real_T(dv);
-  prediction_POS(dv, argInit_real_T(), &c1, &c1, &c1);
+  prediction_POS(dv, argInit_real_T(), &c1, &c2, &c3);
 }
 
 //
@@ -211,7 +214,11 @@ static void main_run_main()
   double qtfisher_data[32];
   double qtsquare_data[32];
   double t_data[32];
+  double c1;
+  double c2;
+  double c3;
   double error_code;
+  double kb;
   double kr;
   double probability;
   double qb_0_tmp;
@@ -224,7 +231,7 @@ static void main_run_main()
   qb_0_tmp = argInit_real_T();
   // Call the entry-point 'run_main'.
   argInit_32x2_real_T(dv);
-  run_main(dv, qb_0_tmp, qb_0_tmp, &kr, &kr, &kr, &kr, &kr, &probability,
+  run_main(dv, qb_0_tmp, qb_0_tmp, &kr, &kb, &c1, &c2, &c3, &probability,
            t_data, *(int(*)[1]) & t_size, &qr_0, qtsquare_data,
            *(int(*)[1]) & qtsquare_size, qtfisher_data,
            *(int(*)[1]) & qtfisher_size, &error_code);

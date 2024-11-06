@@ -332,7 +332,7 @@ endif
 
 quiet_cmd_regen_makefile = ACTION Regenerating $@
 cmd_regen_makefile = cd $(srcdir); "/Users/admin/Library/Application Support/fnm/node-versions/v16.20.2/installation/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/gyp_main.py" -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/admin/Library/Caches/node-gyp/18.17.0" "-Dnode_gyp_dir=/Users/admin/Library/Application Support/fnm/node-versions/v16.20.2/installation/lib/node_modules/pnpm/dist/node_modules/node-gyp" "-Dnode_lib_file=/Users/admin/Library/Caches/node-gyp/18.17.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/Users/admin/pz/war" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" -I/Users/admin/pz/war/build/config.gypi "-I/Users/admin/Library/Application Support/fnm/node-versions/v16.20.2/installation/lib/node_modules/pnpm/dist/node_modules/node-gyp/addon.gypi" -I/Users/admin/Library/Caches/node-gyp/18.17.0/include/node/common.gypi "--toplevel-dir=." binding.gyp
-Makefile: $(srcdir)/../../Library/Application\ Support/fnm/node-versions/v16.20.2/installation/lib/node_modules/pnpm/dist/node_modules/node-gyp/addon.gypi $(srcdir)/../../Library/Caches/node-gyp/18.17.0/include/node/common.gypi $(srcdir)/build/config.gypi $(srcdir)/binding.gyp
+Makefile: $(srcdir)/binding.gyp $(srcdir)/../../Library/Caches/node-gyp/18.17.0/include/node/common.gypi $(srcdir)/../../Library/Application\ Support/fnm/node-versions/v16.20.2/installation/lib/node_modules/pnpm/dist/node_modules/node-gyp/addon.gypi $(srcdir)/build/config.gypi
 	$(call do_cmd,regen_makefile)
 
 # "all" is a concatenation of the "all" targets from all the included
