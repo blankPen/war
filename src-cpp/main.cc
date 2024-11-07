@@ -2,6 +2,8 @@
 #include "main.h"
 #include "metrosquare/run_main.h"
 #include "metrosquare/probability_PIMC.h"
+#include "metrosquare/prediction_my_error.h"
+#include "metrosquare/my_error_square.h"
 #include <iostream>
 
 Napi::Array cpp2NapiArray(const Napi::Env &env, double *array, uint32_t length)
@@ -53,83 +55,8 @@ Napi::Value calculator(const Napi::CallbackInfo &info)
   Napi::Array arr = info[0].As<Napi::Array>();
 
   double *data = napi2CppDoubleArray(arr);
-  // double data[64] = {};
-  // for (int i = 0; i < arr.Length(); i++)
-  // {
-  //   data[i] = arr.Get(i).As<Napi::Number>().DoubleValue();
-  // }
-
   double qb_0 = info[1].As<Napi::Number>();
   double t_known = info[2].As<Napi::Number>();
-
-  // const double data[64] = {
-  //   0,
-  //   1,
-  //   2,
-  //   3,
-  //   4,
-  //   5,
-  //   6,
-  //   7,
-  //   8,
-  //   9,
-  //   10,
-  //   11,
-  //   12,
-  //   13,
-  //   14,
-  //   15,
-  //   16,
-  //   17,
-  //   18,
-  //   19,
-  //   20,
-  //   21,
-  //   22,
-  //   23,
-  //   24,
-  //   25,
-  //   26,
-  //   27,
-  //   28,
-  //   29,
-  //   30,
-  //   31,
-  //   513056,
-  //   511467,
-  //   509084,
-  //   506999,
-  //   504824,
-  //   503435,
-  //   502261,
-  //   500356,
-  //   498808,
-  //   497200,
-  //   495673,
-  //   493353,
-  //   491977,
-  //   490700,
-  //   489695,
-  //   488653,
-  //   487494,
-  //   486490,
-  //   485658,
-  //   483827,
-  //   481568,
-  //   479929,
-  //   478701,
-  //   476833,
-  //   475557,
-  //   474178,
-  //   472535,
-  //   471254,
-  //   470171,
-  //   468490,
-  //   466893,
-  //   464795,
-  // };
-  // double qb_0 = 21600;
-  // double t_known = 27;
 
   double kr;
   double kb;
@@ -145,7 +72,6 @@ Napi::Value calculator(const Napi::CallbackInfo &info)
   double qtfisher_data[32];
   int qtfisher_size;
   double error_code;
-  // run_main(data, qb_0, t_known, &kr, &kb);
 
   run_main(
       data, qb_0,
@@ -165,6 +91,14 @@ Napi::Value calculator(const Napi::CallbackInfo &info)
       *(int(*)[1]) & qtfisher_size,
       &error_code);
 
+  double bx1[3] = {c1, c2, c3};
+  double bx2[2] = {kr, kb};
+  double norm = prediction_my_error(bx1, data, t_known);
+  double norm2 = my_error_square(bx2, data, qb_0, t_known);
+
+  // fprintf('本项目模型的二范数：%.3f\n',prediction_my_error([c1,c2,c3],data,t_known))
+  // fprintf('兰彻斯特模型的二范数：%.3f\n',my_error_square([kr,kb],data,qb_0,t_known))
+
   // Function Declarations
   // extern void run_main(const double data[64], double qb_0, double t_known,
   //                      const double *kr, const double *kb, const double *c1,
@@ -175,16 +109,6 @@ Napi::Value calculator(const Napi::CallbackInfo &info)
   //                      double *error_code);
 
   Napi::Object obj = Napi::Object::New(env);
-
-  // 创建一个 Napi::Array
-  Napi::Array array = Napi::Array::New(env, 32);
-
-  // 填充数组
-  for (uint32_t i = 0; i < 32; i++)
-  {
-    array.Set(i, t_data[i]);
-  }
-
   obj.Set("kr", kr);
   obj.Set("kb", kb);
   obj.Set("c1", c1);
@@ -198,6 +122,9 @@ Napi::Value calculator(const Napi::CallbackInfo &info)
   obj.Set("t_size", t_size);
   obj.Set("qtsquare_size", qtsquare_size);
   obj.Set("qtfisher_size", qtfisher_size);
+  obj.Set("error_code", error_code);
+  obj.Set("norm", norm);
+  obj.Set("norm2", norm2);
 
   return obj;
 }

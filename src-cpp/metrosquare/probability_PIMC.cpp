@@ -122,18 +122,6 @@ double probability_PIMC(double kr, double kb, const double data[64],
   double S_real =
       (0.5 * B_real_squared * term1 + 0.5 * A_real_squared * term2) * m_r *
       omega;
-  std::cout << "xxx  " << 0.5 * B_real_squared * term1 << std::endl;
-  std::cout << "xxx  " << 0.5 * A_real_squared * term2 << std::endl;
-  std::cout << "exp_term1  " << exp_term1 << std::endl;
-  std::cout << "exp_term2  " << exp_term2 << std::endl;
-  std::cout << "exp_term3  " << exp_term3 << std::endl;
-  std::cout << "term1  " << term1 << std::endl;
-  std::cout << "term2  " << term2 << std::endl;
-  std::cout << "B_real_squared  " << B_real_squared << std::endl;
-  std::cout << "A_real_squared  " << A_real_squared << std::endl;
-  std::cout << "A_real  " << A_real << std::endl;
-  std::cout << "B_real  " << B_real << std::endl;
-  std::cout << "S_real  " << S_real << std::endl;
 
   for (double qr = qr_real - num_grid_points_r;
        qr <= qr_real + num_grid_points_r; qr += 1) {

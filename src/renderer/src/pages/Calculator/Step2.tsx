@@ -22,7 +22,11 @@ const MockProgress = () => {
 }
 
 export const Step2 = () => {
-  const { prev, next, params } = useCalculatorStore()
+  const {
+    // prev,
+    // next,
+    params
+  } = useCalculatorStore()
   return (
     <Box>
       <Flex className="w-full" justify="center">
@@ -38,14 +42,14 @@ export const Step2 = () => {
 
           <MockProgress />
 
-          <Flex align="center" justify="center" className="mt-10">
-            <Button type="default" className="w-20 mr-2" onClick={prev}>
-              上一步
+          {/* <Flex align="center" justify="center" className="mt-10">
+            <Button type="default" className="w-30 mr-2" onClick={prev}>
+              取消计算
             </Button>
             <Button type="primary" className="w-20 mr-2" onClick={next}>
               下一步
             </Button>
-          </Flex>
+          </Flex> */}
         </Form>
       </Flex>
     </Box>

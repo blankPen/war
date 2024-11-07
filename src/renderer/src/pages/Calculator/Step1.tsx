@@ -107,10 +107,10 @@ export const Step1 = () => {
           <Select placeholder="请输入" />
         </Form.Item> */}
           <Flex align="center" justify="center">
-            <Button type="default" className="w-20 mr-2" onClick={() => go('Entry')}>
+            <Button size="large" type="default" className="w-20 mr-2" onClick={() => go('Entry')}>
               返回
             </Button>
-            <Button type="primary" className="w-20 mr-2" htmlType="submit">
+            <Button size="large" type="primary" className="w-20 mr-2" htmlType="submit">
               下一步
             </Button>
           </Flex>

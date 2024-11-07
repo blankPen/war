@@ -9,7 +9,7 @@ export default function Entry(): JSX.Element {
   return (
     <Flex vertical align="center" justify="center" className="h-lvh">
       <img alt="logo" className="logo" src={electronLogo} />
-      <div className="text-white text">
+      <div className="text">
         <span>战阵演算系统</span>
       </div>
       <Flex gap="middle">

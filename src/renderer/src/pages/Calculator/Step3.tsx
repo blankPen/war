@@ -3,8 +3,12 @@ import { Flex, Button, Divider } from 'antd'
 import { useCalculatorStore, useAppStore } from '@/store'
 import { Box } from '@/components/Box'
 import ChatLine from './Line'
+import { useEffect, useState } from 'react'
+import { probabilityPIMC } from '@/lib/algorithm'
 
-const calculatorResult = (params, result) => {
+const rate = (n) => Number(n).toFixed(4)
+
+const calculatorResult = async (params, result) => {
   const { time_known: ti_known, inital_troops } = params
   const qb_0 = inital_troops
 
@@ -20,7 +24,6 @@ const calculatorResult = (params, result) => {
     qtsquare_data: qtsquare,
     compare_data: data
   } = result
-  console.log(result)
   // const num_grid_points_r = 5000
   // const data = compare_data
   //   .split(',')
@@ -67,7 +70,6 @@ const calculatorResult = (params, result) => {
     //   lancasterDailyLossRate
     // ])
 
-    const rate = (n) => Number(n).toFixed(4)
     results.push({
       t: day + 1,
       本项目模型与战役数据的差: qtfisher_i - inital_troops_i,
@@ -75,7 +77,7 @@ const calculatorResult = (params, result) => {
       实际兵力数: inital_troops_i,
       本项目模型预测的兵力数: qtfisher_i,
       兰彻斯特模型预测的兵力数: qtsquare_i,
-      预测兵力数的概率: '-', // num(qtsquare_i),
+      预测兵力数的概率: rate(await probabilityPIMC(kr, kb, data, day + 1)), // num(qtsquare_i),
       '本项目模型的损耗速率(人/天)': rate(basicLossRate),
       本项目模型的日损耗率: rate(dailyLossRate),
       '兰彻斯特模型的损耗速率（人/天）': rate(lancasterLossRate),
@@ -89,16 +91,24 @@ const calculatorResult = (params, result) => {
 export const Step3 = () => {
   const { go } = useAppStore()
   const { reset, params, result } = useCalculatorStore()
+  const { qtfisher_data, qtsquare_data, compare_data, norm, norm2 } = result || {}
+  const [results, setResults] = useState<any[]>([])
+  useEffect(() => {
+    const getResults = async () => {
+      const results = result ? await calculatorResult(params, result) : []
+      setResults(results)
+    }
+    getResults()
+  }, [result])
 
-  const { qtfisher_data, qtsquare_data, compare_data } = result || {}
-
-  const results = result ? calculatorResult(params, result) : []
-  console.log(results)
   return (
     <Flex vertical gap="middle" className="overflow-auto">
       <Flex className="w-full overflow-hidden" justify="center" gap="middle">
         {/* 日志展示 */}
         <Box className="p-4 w-2/5 overflow-auto">
+          <p className="mb-2">本项目模型的二范数：{norm.toFixed(4)}</p>
+          <p className="mb-2">兰彻斯特模型的二范数：{norm2.toFixed(4)}</p>
+          <Divider />
           {results.map(({ t, ...obj }, i) => {
             return (
               <div key={i}>
@@ -114,11 +124,14 @@ export const Step3 = () => {
         </Box>
         {/* Line */}
         <Box className="p-4 w-3/5">
-          <ChatLine qtfisher={qtfisher_data} qtsquare={qtsquare_data} data={compare_data} />
+          {qtfisher_data && qtsquare_data && compare_data && (
+            <ChatLine qtfisher={qtfisher_data} qtsquare={qtsquare_data} data={compare_data} />
+          )}
         </Box>
       </Flex>
       <Flex justify="center" gap="middle">
         <Button
+          size="large"
           onClick={() => {
             reset()
             go('Entry')
@@ -126,7 +139,7 @@ export const Step3 = () => {
         >
           返回首页
         </Button>
-        <Button type="primary" onClick={reset}>
+        <Button size="large" type="primary" onClick={reset}>
           重新计算
         </Button>
       </Flex>

@@ -36,5 +36,5 @@ const { kr, kb } = {
   // qtsquare_size: 32,
   // qtfisher_size: 32
 }
-// console.log(addon.probabilityPIMC(kr, kb, data, t_known))
+console.log(addon.probabilityPIMC(kr, kb, data, t_known))
 console.log(addon.calculator(data, qb_0, t_known))
