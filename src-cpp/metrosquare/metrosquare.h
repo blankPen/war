@@ -2,7 +2,7 @@
 // File: metrosquare.h
 //
 // MATLAB Coder version            : 5.3
-// C/C++ source code generated on  : 05-Nov-2024 23:16:58
+// C/C++ source code generated on  : 15-Nov-2024 22:44:42
 //
 
 #ifndef METROSQUARE_H
@@ -10,12 +10,13 @@
 
 // Include Files
 #include "rtwtypes.h"
+#include "coder_array.h"
 #include <cstddef>
 #include <cstdlib>
 
 // Function Declarations
-extern void metrosquare(const double data[], int size, double qb_0, double t_known,
-                        double *kr, double *kb);
+extern void metrosquare(const coder::array<double, 2U> &data, double qb_0,
+                        double t_known, const double *kr, const double *kb);
 
 #endif
 //

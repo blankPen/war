@@ -175,6 +175,15 @@
     <Filter Include="..\src-cpp\metrosquare">
       <UniqueIdentifier>{E85D92D1-EE33-9632-A180-80DE303D0E00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="..">
+      <UniqueIdentifier>{739DB09A-CC57-A953-A6CF-F64FA08E4FA7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\src-cpp">
+      <UniqueIdentifier>{7B8E270B-71AB-E1A3-5F17-7C9101198F9D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\src-cpp\metrosquare">
+      <UniqueIdentifier>{E85D92D1-EE33-9632-A180-80DE303D0E00}</UniqueIdentifier>
+    </Filter>
     <Filter Include="C:">
       <UniqueIdentifier>{7B735499-E5DD-1C2B-6C26-70023832A1CF}</UniqueIdentifier>
     </Filter>
@@ -231,6 +240,21 @@
     <ClCompile Include="..\src-cpp\utils.cc">
       <Filter>..\src-cpp</Filter>
     </ClCompile>
+    <ClCompile Include="..\src-cpp\metrosquare\calculate_qtfisher.cpp">
+      <Filter>..\src-cpp\metrosquare</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src-cpp\metrosquare\calculate_qtfisher_data.cpp">
+      <Filter>..\src-cpp\metrosquare</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src-cpp\metrosquare\calculate_qtfisher_initialize.cpp">
+      <Filter>..\src-cpp\metrosquare</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src-cpp\metrosquare\calculate_qtfisher_terminate.cpp">
+      <Filter>..\src-cpp\metrosquare</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src-cpp\metrosquare\calculate_qtsquare.cpp">
+      <Filter>..\src-cpp\metrosquare</Filter>
+    </ClCompile>
     <ClCompile Include="..\src-cpp\metrosquare\eml_rand_mt19937ar.cpp">
       <Filter>..\src-cpp\metrosquare</Filter>
     </ClCompile>
@@ -243,25 +267,16 @@
     <ClCompile Include="..\src-cpp\metrosquare\metrosquare.cpp">
       <Filter>..\src-cpp\metrosquare</Filter>
     </ClCompile>
-    <ClCompile Include="..\src-cpp\metrosquare\metrosquare_data.cpp">
-      <Filter>..\src-cpp\metrosquare</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src-cpp\metrosquare\metrosquare_initialize.cpp">
-      <Filter>..\src-cpp\metrosquare</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src-cpp\metrosquare\metrosquare_terminate.cpp">
-      <Filter>..\src-cpp\metrosquare</Filter>
-    </ClCompile>
     <ClCompile Include="..\src-cpp\metrosquare\minOrMax.cpp">
       <Filter>..\src-cpp\metrosquare</Filter>
     </ClCompile>
     <ClCompile Include="..\src-cpp\metrosquare\my_error_square.cpp">
       <Filter>..\src-cpp\metrosquare</Filter>
     </ClCompile>
-    <ClCompile Include="..\src-cpp\metrosquare\prediction_POS.cpp">
+    <ClCompile Include="..\src-cpp\metrosquare\prediction_my_error.cpp">
       <Filter>..\src-cpp\metrosquare</Filter>
     </ClCompile>
-    <ClCompile Include="..\src-cpp\metrosquare\prediction_my_error.cpp">
+    <ClCompile Include="..\src-cpp\metrosquare\prediction_POS.cpp">
       <Filter>..\src-cpp\metrosquare</Filter>
     </ClCompile>
     <ClCompile Include="..\src-cpp\metrosquare\probability_PIMC.cpp">
@@ -280,9 +295,6 @@
       <Filter>..\src-cpp\metrosquare</Filter>
     </ClCompile>
     <ClCompile Include="..\src-cpp\metrosquare\run_main.cpp">
-      <Filter>..\src-cpp\metrosquare</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src-cpp\metrosquare\sqrt.cpp">
       <Filter>..\src-cpp\metrosquare</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\Test\AppData\Roaming\fnm\node-versions\v18.20.4\installation\node_modules\pnpm\dist\node_modules\node-gyp\src\win_delay_load_hook.cc">

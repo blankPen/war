@@ -143,6 +143,21 @@
     <ClCompile Include="..\src-cpp\utils.cc">
       <ObjectFileName>$(IntDir)\src-cpp\utils.obj</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\src-cpp\metrosquare\calculate_qtfisher.cpp">
+      <ObjectFileName>$(IntDir)\src-cpp\metrosquare\calculate_qtfisher.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src-cpp\metrosquare\calculate_qtfisher_data.cpp">
+      <ObjectFileName>$(IntDir)\src-cpp\metrosquare\calculate_qtfisher_data.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src-cpp\metrosquare\calculate_qtfisher_initialize.cpp">
+      <ObjectFileName>$(IntDir)\src-cpp\metrosquare\calculate_qtfisher_initialize.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src-cpp\metrosquare\calculate_qtfisher_terminate.cpp">
+      <ObjectFileName>$(IntDir)\src-cpp\metrosquare\calculate_qtfisher_terminate.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src-cpp\metrosquare\calculate_qtsquare.cpp">
+      <ObjectFileName>$(IntDir)\src-cpp\metrosquare\calculate_qtsquare.obj</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\src-cpp\metrosquare\eml_rand_mt19937ar.cpp">
       <ObjectFileName>$(IntDir)\src-cpp\metrosquare\eml_rand_mt19937ar.obj</ObjectFileName>
     </ClCompile>
@@ -155,26 +170,17 @@
     <ClCompile Include="..\src-cpp\metrosquare\metrosquare.cpp">
       <ObjectFileName>$(IntDir)\src-cpp\metrosquare\metrosquare.obj</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\src-cpp\metrosquare\metrosquare_data.cpp">
-      <ObjectFileName>$(IntDir)\src-cpp\metrosquare\metrosquare_data.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\src-cpp\metrosquare\metrosquare_initialize.cpp">
-      <ObjectFileName>$(IntDir)\src-cpp\metrosquare\metrosquare_initialize.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\src-cpp\metrosquare\metrosquare_terminate.cpp">
-      <ObjectFileName>$(IntDir)\src-cpp\metrosquare\metrosquare_terminate.obj</ObjectFileName>
-    </ClCompile>
     <ClCompile Include="..\src-cpp\metrosquare\minOrMax.cpp">
       <ObjectFileName>$(IntDir)\src-cpp\metrosquare\minOrMax.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\src-cpp\metrosquare\my_error_square.cpp">
       <ObjectFileName>$(IntDir)\src-cpp\metrosquare\my_error_square.obj</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="..\src-cpp\metrosquare\prediction_POS.cpp">
-      <ObjectFileName>$(IntDir)\src-cpp\metrosquare\prediction_POS.obj</ObjectFileName>
-    </ClCompile>
     <ClCompile Include="..\src-cpp\metrosquare\prediction_my_error.cpp">
       <ObjectFileName>$(IntDir)\src-cpp\metrosquare\prediction_my_error.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src-cpp\metrosquare\prediction_POS.cpp">
+      <ObjectFileName>$(IntDir)\src-cpp\metrosquare\prediction_POS.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="..\src-cpp\metrosquare\probability_PIMC.cpp">
       <ObjectFileName>$(IntDir)\src-cpp\metrosquare\probability_PIMC.obj</ObjectFileName>
@@ -193,9 +199,6 @@
     </ClCompile>
     <ClCompile Include="..\src-cpp\metrosquare\run_main.cpp">
       <ObjectFileName>$(IntDir)\src-cpp\metrosquare\run_main.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="..\src-cpp\metrosquare\sqrt.cpp">
-      <ObjectFileName>$(IntDir)\src-cpp\metrosquare\sqrt.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="C:\Users\Test\AppData\Roaming\fnm\node-versions\v18.20.4\installation\node_modules\pnpm\dist\node_modules\node-gyp\src\win_delay_load_hook.cc"/>
   </ItemGroup>

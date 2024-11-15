@@ -78,13 +78,27 @@ const { compare_data, inital_troops, time_known } = {
     446, 441, 426, 421, 415, 407, 403, 399, 395, 387, 383, 377, 368, 363, 357, 351, 346
   ],
   inital_troops: 526,
-  time_known: 30
-}
+  time_known: 63
 
-// console.log(addon.probabilityPIMC(kr, kb, compare_data, time_known))
-
-try {
-  console.log(addon.calculator(compare_data, inital_troops, time_known))
-} catch (error) {
-  console.log(error)
+  // compare_data: [
+  //   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+  //   26, 27, 28, 29, 30, 31, 5130, 5114, 5090, 5069, 5048, 5034, 5022, 5003, 4988, 4972, 4956, 4933,
+  //   4919, 4907, 4896, 4886, 4874, 4864, 4856, 4838, 4815, 4799, 4787, 4768, 4755, 4741, 4725, 4712,
+  //   4701, 4684, 4668, 4647
+  // ],
+  // inital_troops: 2160,
+  // time_known: 27
 }
+console.log(
+  {
+    kr, kb, compare_data, time_known,
+    inital_troops
+  }
+)
+console.log(addon.probabilityPIMC(kr, kb, compare_data, inital_troops, time_known))
+
+// try {
+//   console.log(addon.calculator(compare_data, inital_troops, time_known))
+// } catch (error) {
+//   console.log(error)
+// }

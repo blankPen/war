@@ -2,28 +2,29 @@
 // File: run_main.cpp
 //
 // MATLAB Coder version            : 5.3
-// C/C++ source code generated on  : 05-Nov-2024 23:16:58
+// C/C++ source code generated on  : 15-Nov-2024 22:44:42
 //
 
 // Include Files
 #include "run_main.h"
+#include "calculate_qtfisher.h"
+#include "calculate_qtfisher_data.h"
+#include "calculate_qtfisher_initialize.h"
+#include "calculate_qtsquare.h"
 #include "metrosquare.h"
-#include "metrosquare_data.h"
-#include "metrosquare_initialize.h"
 #include "minOrMax.h"
 #include "prediction_POS.h"
 #include "probability_PIMC.h"
 #include "rt_nonfinite.h"
-#include "sqrt.h"
-#include <algorithm>
+#include "coder_array.h"
 #include <cmath>
 #include <math.h>
-#include <iostream>
 
 // Function Definitions
 //
+// 一、测试函数
 //
-// Arguments    : const double data[]
+// Arguments    : const coder::array<double, 2U> &data
 //                double qb_0
 //                double t_known
 //                double *kr
@@ -32,31 +33,23 @@
 //                double *c2
 //                double *c3
 //                double *probability
-//                double t_data[]
-//                int t_size[1]
+//                coder::array<double, 1U> &t
 //                double *qr_0
-//                double qtsquare_data[]
-//                int qtsquare_size[1]
-//                double qtfisher_data[]
-//                int qtfisher_size[1]
+//                coder::array<double, 1U> &qtsquare
+//                coder::array<double, 1U> &qtfisher
 //                double *error_code
 // Return Type  : void
 //
-void run_main(const double data[], int size, double qb_0, double t_known, double *kr,
-              double *kb, double *c1, double *c2, double *c3,
-              double *probability, double t_data[], int t_size[1], double *qr_0,
-              double qtsquare_data[], int qtsquare_size[1],
-              double qtfisher_data[], int qtfisher_size[1], double *error_code)
+void run_main(const coder::array<double, 2U> &data, double qb_0, double t_known,
+              double *kr, double *kb, double *c1, double *c2, double *c3,
+              double *probability, coder::array<double, 1U> &t, double *qr_0,
+              coder::array<double, 1U> &qtsquare,
+              coder::array<double, 1U> &qtfisher, double *error_code)
 {
-  creal_T dc;
-
-  int half_size = static_cast<int>(size / 2);
-  std::cout << "This is an info message  :" << half_size << std::endl;
-  double* y_data = new double[half_size];
   double b_data[2];
   int exponent;
-  if (!isInitialized_metrosquare) {
-    metrosquare_initialize();
+  if (!isInitialized_calculate_qtfisher) {
+    calculate_qtfisher_initialize();
   }
   *kr = rtNaN;
   *kb = rtNaN;
@@ -64,35 +57,28 @@ void run_main(const double data[], int size, double qb_0, double t_known, double
   *c2 = rtNaN;
   *c3 = rtNaN;
   *probability = rtNaN;
-  t_size[0] = 1;
-  t_data[0] = rtNaN;
+  t.set_size(1);
+  t[0] = rtNaN;
   *qr_0 = rtNaN;
-  qtsquare_size[0] = 1;
-  qtsquare_data[0] = rtNaN;
-  qtfisher_size[0] = 1;
-  qtfisher_data[0] = rtNaN;
+  qtsquare.set_size(1);
+  qtsquare[0] = rtNaN;
+  qtfisher.set_size(1);
+  qtfisher[0] = rtNaN;
   *error_code = rtNaN;
-
-  
   if (qb_0 < 0.0) {
     *error_code = 1.0;
-    // std::cout << "error_code" << error_code << std::endl;
     // quit
   } else {
-      // std::cout << "rr" << error_code << std::endl;
     b_data[0] = data[0];
-    b_data[1] = data[half_size];
-    if (coder::internal::b_minimum(b_data) < 0.0) {
+    b_data[1] = data[data.size(0)];
+    if (coder::internal::minimum(b_data) < 0.0) {
       *error_code = 2.0;
-      
-      // std::cout << "error_code2" << error_code << std::endl;
       // quit
     } else {
       b_data[0] = data[1];
-      b_data[1] = data[half_size + 1];
-      if (coder::internal::b_minimum(b_data) < 0.0) {
+      b_data[1] = data[data.size(0) + 1];
+      if (coder::internal::minimum(b_data) < 0.0) {
         *error_code = 3.0;
-      // std::cout << "error_code3" << error_code << std::endl;
         // quit
       } else {
         double absx;
@@ -102,8 +88,10 @@ void run_main(const double data[], int size, double qb_0, double t_known, double
         tf = false;
         k = 0;
         exitg1 = false;
-        while ((!exitg1) && (k < half_size)) {
-          absx = std::abs(data[k] / 2.0);
+        while ((!exitg1) && (k <= data.size(0) - 1)) {
+          double b;
+          b = data[k];
+          absx = std::abs(b / 2.0);
           if ((!std::isinf(absx)) && (!std::isnan(absx))) {
             if (absx <= 2.2250738585072014E-308) {
               absx = 4.94065645841247E-324;
@@ -115,7 +103,7 @@ void run_main(const double data[], int size, double qb_0, double t_known, double
             absx = rtNaN;
           }
           if ((std::abs(data[k] - t_known) < absx) ||
-              (std::isinf(t_known) && std::isinf(data[k]) &&
+              (std::isinf(t_known) && std::isinf(b) &&
                ((t_known > 0.0) == (data[k] > 0.0)))) {
             tf = true;
             exitg1 = true;
@@ -124,44 +112,43 @@ void run_main(const double data[], int size, double qb_0, double t_known, double
           }
         }
         if (tf) {
-          double a;
-          double b_a;
-          double b_c2;
-          metrosquare(data, size, qb_0, t_known, kr, kb);
-          prediction_POS(data, size, t_known, c1, c2, c3);
-          *probability = probability_PIMC(*kr, *kb, data, t_known,
-                                          std::round(data[half_size] / 100.0) * 20.0, size);
-          t_size[0] = half_size;
-          std::copy(&data[0], &data[half_size], &t_data[0]);
-          *qr_0 = data[half_size];
-          absx = *kr * *kb;
-          dc.re = absx;
-          dc.im = 0.0;
-          coder::b_sqrt(&dc);
-          for (k = 0; k < half_size; k++) {
-            y_data[k] = std::cosh(dc.re * data[k]);
+          //   二、数据导入（实现参数赋值）
+          //   三、运算分析（模型的数值运算）
+          metrosquare(data, qb_0, t_known, kr, kb);
+          // 平方律模型参数计算
+          prediction_POS(data, t_known, c1, c2, c3);
+          // 本项目模型参数计算
+          *probability =
+              probability_PIMC(*kr, *kb, data, qb_0, t_known,
+                               std::round(data[data.size(0)] / 100.0) * 20.0);
+          // 路径积分概率计算
+          k = data.size(0);
+          t.set_size(data.size(0));
+          for (exponent = 0; exponent < k; exponent++) {
+            t[exponent] = data[exponent];
           }
-          dc.re = absx;
-          dc.im = 0.0;
-          coder::b_sqrt(&dc);
-          a = std::sqrt(*kb / *kr) * qb_0;
-          std::cout << "a: " << kb << std::endl;
-          std::cout << "a: " << kr << std::endl;
-          std::cout << "a: " << qb_0 << std::endl;
-          qtsquare_size[0] = half_size;
-          b_a = *c1 / *c2;
-          b_c2 = *c2 * std::sin(*c3);
-          qtfisher_size[0] = half_size;
-          for (k = 0; k < half_size; k++) {
+          *qr_0 = data[data.size(0)];
+          //  初始化数组来存储结果
+          qtsquare.set_size(data.size(0));
+          k = data.size(0);
+          for (exponent = 0; exponent < k; exponent++) {
+            qtsquare[exponent] = 0.0;
+          }
+          qtfisher.set_size(data.size(0));
+          k = data.size(0);
+          for (exponent = 0; exponent < k; exponent++) {
+            qtfisher[exponent] = 0.0;
+          }
+          //  fprintf('kr：%.9f\n', length(t));
+          //  循环计算
+          exponent = data.size(0) - 1;
+          for (k = 0; k <= exponent; k++) {
+            //  当前时间点
+            //  fprintf('kr：%.9f\n', ti);
+            //  计算每个时间点的 qtsquare 和 qtfisher
             absx = data[k];
-
-            qtsquare_data[k] =
-                std::round(data[half_size] * y_data[k] - a * std::sinh(dc.re * absx));
-            absx = std::round(
-                ((data[half_size] - *c1 * absx) - *c2 * std::sin(b_a * absx + *c3)) +
-                b_c2);
-            y_data[k] = absx;
-            qtfisher_data[k] = absx;
+            qtsquare[k] = calculate_qtsquare(*kr, *kb, absx, *qr_0, qb_0);
+            qtfisher[k] = calculate_qtfisher(*c1, *c2, *c3, absx, *qr_0);
           }
         } else {
           *error_code = 4.0;
