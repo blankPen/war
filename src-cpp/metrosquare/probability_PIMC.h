@@ -14,8 +14,8 @@
 #include <cstdlib>
 
 // Function Declarations
-extern double probability_PIMC(double kr, double kb, const double data[64],
-                               double t_known, double num_grid_points_r);
+extern double probability_PIMC(double kr, double kb, const double data[],
+                               double t_known, double num_grid_points_r, int size);
 
 #endif
 //

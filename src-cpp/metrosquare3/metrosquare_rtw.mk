@@ -2,7 +2,7 @@
 ## Makefile generated for component 'metrosquare'. 
 ## 
 ## Makefile     : metrosquare_rtw.mk
-## Generated on : Mon Nov 04 13:13:30 2024
+## Generated on : Tue Nov 05 23:17:03 2024
 ## Final product: ./metrosquare.lib
 ## Product type : static-library
 ## 
@@ -183,7 +183,7 @@ DEFINES = $(DEFINES_) $(DEFINES_CUSTOM) $(DEFINES_STANDARD)
 ## SOURCE FILES
 ###########################################################################
 
-SRCS = $(START_DIR)/codegen/lib/metrosquare/metrosquare_data.cpp $(START_DIR)/codegen/lib/metrosquare/rt_nonfinite.cpp $(START_DIR)/codegen/lib/metrosquare/rtGetNaN.cpp $(START_DIR)/codegen/lib/metrosquare/rtGetInf.cpp $(START_DIR)/codegen/lib/metrosquare/metrosquare_initialize.cpp $(START_DIR)/codegen/lib/metrosquare/metrosquare_terminate.cpp $(START_DIR)/codegen/lib/metrosquare/metrosquare.cpp $(START_DIR)/codegen/lib/metrosquare/rand.cpp $(START_DIR)/codegen/lib/metrosquare/my_error_square.cpp $(START_DIR)/codegen/lib/metrosquare/find.cpp $(START_DIR)/codegen/lib/metrosquare/prediction_my_error.cpp $(START_DIR)/codegen/lib/metrosquare/prediction_POS.cpp $(START_DIR)/codegen/lib/metrosquare/probability_PIMC.cpp $(START_DIR)/codegen/lib/metrosquare/run_main.cpp $(START_DIR)/codegen/lib/metrosquare/minOrMax.cpp $(START_DIR)/codegen/lib/metrosquare/eml_rand_mt19937ar_stateful.cpp $(START_DIR)/codegen/lib/metrosquare/eml_rand_mt19937ar.cpp
+SRCS = $(START_DIR)/codegen/lib/metrosquare/metrosquare_data.cpp $(START_DIR)/codegen/lib/metrosquare/rt_nonfinite.cpp $(START_DIR)/codegen/lib/metrosquare/rtGetNaN.cpp $(START_DIR)/codegen/lib/metrosquare/rtGetInf.cpp $(START_DIR)/codegen/lib/metrosquare/metrosquare_initialize.cpp $(START_DIR)/codegen/lib/metrosquare/metrosquare_terminate.cpp $(START_DIR)/codegen/lib/metrosquare/metrosquare.cpp $(START_DIR)/codegen/lib/metrosquare/rand.cpp $(START_DIR)/codegen/lib/metrosquare/my_error_square.cpp $(START_DIR)/codegen/lib/metrosquare/find.cpp $(START_DIR)/codegen/lib/metrosquare/minOrMax.cpp $(START_DIR)/codegen/lib/metrosquare/prediction_my_error.cpp $(START_DIR)/codegen/lib/metrosquare/prediction_POS.cpp $(START_DIR)/codegen/lib/metrosquare/probability_PIMC.cpp $(START_DIR)/codegen/lib/metrosquare/run_main.cpp $(START_DIR)/codegen/lib/metrosquare/eml_rand_mt19937ar_stateful.cpp $(START_DIR)/codegen/lib/metrosquare/eml_rand_mt19937ar.cpp $(START_DIR)/codegen/lib/metrosquare/sqrt.cpp
 
 ALL_SRCS = $(SRCS)
 
@@ -191,7 +191,7 @@ ALL_SRCS = $(SRCS)
 ## OBJECTS
 ###########################################################################
 
-OBJS = metrosquare_data.obj rt_nonfinite.obj rtGetNaN.obj rtGetInf.obj metrosquare_initialize.obj metrosquare_terminate.obj metrosquare.obj rand.obj my_error_square.obj find.obj prediction_my_error.obj prediction_POS.obj probability_PIMC.obj run_main.obj minOrMax.obj eml_rand_mt19937ar_stateful.obj eml_rand_mt19937ar.obj
+OBJS = metrosquare_data.obj rt_nonfinite.obj rtGetNaN.obj rtGetInf.obj metrosquare_initialize.obj metrosquare_terminate.obj metrosquare.obj rand.obj my_error_square.obj find.obj minOrMax.obj prediction_my_error.obj prediction_POS.obj probability_PIMC.obj run_main.obj eml_rand_mt19937ar_stateful.obj eml_rand_mt19937ar.obj sqrt.obj
 
 ALL_OBJS = $(OBJS)
 
@@ -374,6 +374,10 @@ find.obj : $(START_DIR)/codegen/lib/metrosquare/find.cpp
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
+minOrMax.obj : $(START_DIR)/codegen/lib/metrosquare/minOrMax.cpp
+	$(CPP) $(CPPFLAGS) -o "$@" "$<"
+
+
 prediction_my_error.obj : $(START_DIR)/codegen/lib/metrosquare/prediction_my_error.cpp
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
@@ -390,15 +394,15 @@ run_main.obj : $(START_DIR)/codegen/lib/metrosquare/run_main.cpp
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-minOrMax.obj : $(START_DIR)/codegen/lib/metrosquare/minOrMax.cpp
-	$(CPP) $(CPPFLAGS) -o "$@" "$<"
-
-
 eml_rand_mt19937ar_stateful.obj : $(START_DIR)/codegen/lib/metrosquare/eml_rand_mt19937ar_stateful.cpp
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
 eml_rand_mt19937ar.obj : $(START_DIR)/codegen/lib/metrosquare/eml_rand_mt19937ar.cpp
+	$(CPP) $(CPPFLAGS) -o "$@" "$<"
+
+
+sqrt.obj : $(START_DIR)/codegen/lib/metrosquare/sqrt.cpp
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 

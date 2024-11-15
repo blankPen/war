@@ -2,7 +2,9 @@ import {
   app,
   shell,
   BrowserWindow,
-  ipcMain
+  ipcMain,
+  Menu,
+  MenuItem
   // Notification
 } from 'electron'
 import { join } from 'path'
@@ -13,12 +15,14 @@ import './lib/algorithm'
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
+    title: '军事冲突演化模拟平台',
     width: 1280,
     minWidth: 1024,
     height: 800,
     minHeight: 670,
     show: false,
     autoHideMenuBar: true,
+    titleBarStyle: 'hiddenInset',
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -43,6 +47,24 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 }
+
+const menu = new Menu()
+menu.append(
+  new MenuItem({
+    label: 'Electron',
+    submenu: [
+      {
+        role: 'help',
+        accelerator: process.platform === 'darwin' ? 'Alt+Cmd+I' : 'Alt+Shift+I',
+        click: (_, focusedWindow: any) => {
+          if (focusedWindow) focusedWindow.webContents.openDevTools()
+        }
+      }
+    ]
+  })
+)
+
+Menu.setApplicationMenu(menu)
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

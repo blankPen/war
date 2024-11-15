@@ -1,1 +1,0 @@
-cmd_Release/addon.node := ln -f "/Users/admin/pz/war/resources/addon.node" "Release/addon.node" 2>/dev/null || (rm -rf "Release/addon.node" && cp -af "/Users/admin/pz/war/resources/addon.node" "Release/addon.node")

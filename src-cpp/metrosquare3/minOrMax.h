@@ -2,7 +2,7 @@
 // File: minOrMax.h
 //
 // MATLAB Coder version            : 5.3
-// C/C++ source code generated on  : 04-Nov-2024 13:13:25
+// C/C++ source code generated on  : 12-Nov-2024 22:50:14
 //
 
 #ifndef MINORMAX_H
@@ -16,9 +16,11 @@
 // Function Declarations
 namespace coder {
 namespace internal {
-double minimum(const double x[2]);
+double b_minimum(const double x[2]);
 
-}
+double minimum(const double x[500]);
+
+} // namespace internal
 } // namespace coder
 
 #endif

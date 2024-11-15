@@ -14,7 +14,7 @@
 #include <cstdlib>
 
 // Function Declarations
-extern void run_main(const double data[64], double qb_0, double t_known,
+extern void run_main(const double data[], int size, double qb_0, double t_known,
                      double *kr, double *kb, double *c1, double *c2, double *c3,
                      double *probability, double t_data[], int t_size[1],
                      double *qr_0, double qtsquare_data[], int qtsquare_size[1],

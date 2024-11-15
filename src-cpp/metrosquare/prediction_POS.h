@@ -14,7 +14,7 @@
 #include <cstdlib>
 
 // Function Declarations
-extern void prediction_POS(const double data[64], double t_known, double *c1,
+extern void prediction_POS(const double data[], int size, double t_known, double *c1,
                            double *c2, double *c3);
 
 #endif

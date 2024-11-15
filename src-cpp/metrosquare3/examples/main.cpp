@@ -2,7 +2,7 @@
 // File: main.cpp
 //
 // MATLAB Coder version            : 5.3
-// C/C++ source code generated on  : 04-Nov-2024 13:13:25
+// C/C++ source code generated on  : 12-Nov-2024 22:50:14
 //
 
 /*************************************************************************/
@@ -40,13 +40,14 @@
 #include "probability_PIMC.h"
 #include "rt_nonfinite.h"
 #include "run_main.h"
+#include "coder_array.h"
 
 // Function Declarations
 static void argInit_1x2_real_T(double result[2]);
 
 static void argInit_1x3_real_T(double result[3]);
 
-static void argInit_32x2_real_T(double result[64]);
+static coder::array<double, 2U> argInit_Unboundedx2_real_T();
 
 static double argInit_real_T();
 
@@ -92,19 +93,24 @@ static void argInit_1x3_real_T(double result[3])
 }
 
 //
-// Arguments    : double result[64]
-// Return Type  : void
+// Arguments    : void
+// Return Type  : coder::array<double, 2U>
 //
-static void argInit_32x2_real_T(double result[64])
+static coder::array<double, 2U> argInit_Unboundedx2_real_T()
 {
+  coder::array<double, 2U> result;
+  // Set the size of the array.
+  // Change this size to the value that the application requires.
+  result.set_size(2, 2);
   // Loop over the array to initialize each element.
-  for (int idx0{0}; idx0 < 32; idx0++) {
+  for (int idx0{0}; idx0 < result.size(0); idx0++) {
     for (int idx1{0}; idx1 < 2; idx1++) {
       // Set the value of the array element.
       // Change this value to the value that the application requires.
-      result[idx0 + (idx1 << 5)] = argInit_real_T();
+      result[idx0 + result.size(0) * idx1] = argInit_real_T();
     }
   }
+  return result;
 }
 
 //
@@ -122,15 +128,16 @@ static double argInit_real_T()
 //
 static void main_metrosquare()
 {
-  double dv[64];
+  coder::array<double, 2U> data;
+  double kb;
   double kr;
   double qb_0_tmp;
   // Initialize function 'metrosquare' input arguments.
   // Initialize function input argument 'data'.
+  data = argInit_Unboundedx2_real_T();
   qb_0_tmp = argInit_real_T();
   // Call the entry-point 'metrosquare'.
-  argInit_32x2_real_T(dv);
-  metrosquare(dv, qb_0_tmp, qb_0_tmp, &kr, &kr);
+  metrosquare(data, qb_0_tmp, qb_0_tmp, &kr, &kb);
 }
 
 //
@@ -139,17 +146,17 @@ static void main_metrosquare()
 //
 static void main_my_error_square()
 {
-  double dv1[64];
+  coder::array<double, 2U> data;
   double dv[2];
   double qb_0_tmp;
   // Initialize function 'my_error_square' input arguments.
   // Initialize function input argument 'v'.
   // Initialize function input argument 'data'.
+  data = argInit_Unboundedx2_real_T();
   qb_0_tmp = argInit_real_T();
   // Call the entry-point 'my_error_square'.
   argInit_1x2_real_T(dv);
-  argInit_32x2_real_T(dv1);
-  qb_0_tmp = my_error_square(dv, dv1, qb_0_tmp, qb_0_tmp);
+  qb_0_tmp = my_error_square(dv, data, qb_0_tmp, qb_0_tmp);
 }
 
 //
@@ -158,13 +165,15 @@ static void main_my_error_square()
 //
 static void main_prediction_POS()
 {
-  double dv[64];
+  coder::array<double, 2U> data;
   double c1;
+  double c2;
+  double c3;
   // Initialize function 'prediction_POS' input arguments.
   // Initialize function input argument 'data'.
+  data = argInit_Unboundedx2_real_T();
   // Call the entry-point 'prediction_POS'.
-  argInit_32x2_real_T(dv);
-  prediction_POS(dv, argInit_real_T(), &c1, &c1, &c1);
+  prediction_POS(data, argInit_real_T(), &c1, &c2, &c3);
 }
 
 //
@@ -173,16 +182,16 @@ static void main_prediction_POS()
 //
 static void main_prediction_my_error()
 {
-  double dv1[64];
+  coder::array<double, 2U> data;
   double dv[3];
   double u;
   // Initialize function 'prediction_my_error' input arguments.
   // Initialize function input argument 'v'.
   // Initialize function input argument 'data'.
+  data = argInit_Unboundedx2_real_T();
   // Call the entry-point 'prediction_my_error'.
   argInit_1x3_real_T(dv);
-  argInit_32x2_real_T(dv1);
-  u = prediction_my_error(dv, dv1, argInit_real_T());
+  u = prediction_my_error(dv, data, argInit_real_T());
 }
 
 //
@@ -191,14 +200,14 @@ static void main_prediction_my_error()
 //
 static void main_probability_PIMC()
 {
-  double dv[64];
+  coder::array<double, 2U> data;
   double kr_tmp;
   // Initialize function 'probability_PIMC' input arguments.
   kr_tmp = argInit_real_T();
   // Initialize function input argument 'data'.
+  data = argInit_Unboundedx2_real_T();
   // Call the entry-point 'probability_PIMC'.
-  argInit_32x2_real_T(dv);
-  kr_tmp = probability_PIMC(kr_tmp, kr_tmp, dv, kr_tmp, kr_tmp);
+  kr_tmp = probability_PIMC(kr_tmp, kr_tmp, data, kr_tmp, kr_tmp);
 }
 
 //
@@ -207,27 +216,26 @@ static void main_probability_PIMC()
 //
 static void main_run_main()
 {
-  double dv[64];
-  double qtfisher_data[32];
-  double qtsquare_data[32];
-  double t_data[32];
+  coder::array<double, 2U> data;
+  coder::array<double, 1U> qtfisher;
+  coder::array<double, 1U> qtsquare;
+  coder::array<double, 1U> t;
+  double c1;
+  double c2;
+  double c3;
   double error_code;
+  double kb;
   double kr;
   double probability;
   double qb_0_tmp;
   double qr_0;
-  int qtfisher_size;
-  int qtsquare_size;
-  int t_size;
   // Initialize function 'run_main' input arguments.
   // Initialize function input argument 'data'.
+  data = argInit_Unboundedx2_real_T();
   qb_0_tmp = argInit_real_T();
   // Call the entry-point 'run_main'.
-  argInit_32x2_real_T(dv);
-  run_main(dv, qb_0_tmp, qb_0_tmp, &kr, &kr, &kr, &kr, &kr, &probability,
-           t_data, *(int(*)[1]) & t_size, &qr_0, qtsquare_data,
-           *(int(*)[1]) & qtsquare_size, qtfisher_data,
-           *(int(*)[1]) & qtfisher_size, &error_code);
+  run_main(data, qb_0_tmp, qb_0_tmp, &kr, &kb, &c1, &c2, &c3, &probability, t,
+           &qr_0, qtsquare, qtfisher, &error_code);
 }
 
 //

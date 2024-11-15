@@ -72,32 +72,30 @@ static double rt_powd_snf(double u0, double u1)
 }
 
 //
-// 用来计算Lanchester方程平方律各个末态所对应最小作用量/概率的理论值
 //
 // Arguments    : double kr
 //                double kb
-//                const double data[64]
+//                const double data[]
 //                double t_known
 //                double num_grid_points_r
 // Return Type  : double
 //
-double probability_PIMC(double kr, double kb, const double data[64],
-                        double t_known, double num_grid_points_r)
+double probability_PIMC(double kr, double kb, const double data[],
+                        double t_known, double num_grid_points_r, int size)
 {
   double t0 = 0;
-  double qr_0 = data[32];
+  double qr_0 = data[size/2];
   double m_r = std::pow(
       10,
       static_cast<int>(-std::to_string(static_cast<int>(qr_0)).length() - 1));
   double t = data[static_cast<int>(t_known)];
-  double qr_real = data[32 + static_cast<int>(t_known)];
+  double qr_real = data[size/2 + static_cast<int>(t_known)];
   double omega = std::sqrt(kr * kb);
   double T = t - t0;
 
   std::vector<double> th_S_cl;
   std::vector<double> th_gailv;
 
-  // A_real 和 B_real 的计算
   double A_real =
       (qr_real * std::exp(-omega * t0) - qr_0 * std::exp(-omega * t)) /
       (std::exp(omega * T) - std::exp(-omega * T));
@@ -105,20 +103,16 @@ double probability_PIMC(double kr, double kb, const double data[64],
       ((qr_0 * std::exp(omega * t) - qr_real * std::exp(omega * t0)) /
        (std::exp(omega * T) - std::exp(-omega * T)));
 
-  // 提取公共计算变量
   double exp_term1 = exp(-2 * t * omega);
   double exp_term2 = exp(2 * t * omega);
   double exp_term3 = exp(-2 * omega * t0);
 
-  // 计算中间变量
   double term1 = -exp_term1 + exp_term3;
   double term2 = exp_term2 - exp_term3;
 
-  // 计算 B_real 和 A_real 的平方
   double B_real_squared = B_real * B_real;
   double A_real_squared = A_real * A_real;
 
-  // 计算 S_real
   double S_real =
       (0.5 * B_real_squared * term1 + 0.5 * A_real_squared * term2) * m_r *
       omega;

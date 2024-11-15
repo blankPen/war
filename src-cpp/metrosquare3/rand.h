@@ -2,7 +2,7 @@
 // File: rand.h
 //
 // MATLAB Coder version            : 5.3
-// C/C++ source code generated on  : 04-Nov-2024 13:13:25
+// C/C++ source code generated on  : 12-Nov-2024 22:50:14
 //
 
 #ifndef RAND_H
@@ -17,7 +17,11 @@
 namespace coder {
 void b_rand(double r[1000]);
 
-void c_rand(double r[1500]);
+void c_rand(double r[2]);
+
+void d_rand(double r[1500]);
+
+void e_rand(double r[3]);
 
 } // namespace coder
 

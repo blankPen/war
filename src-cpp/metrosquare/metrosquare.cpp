@@ -16,19 +16,20 @@
 #include "rt_nonfinite.h"
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 
 // Function Definitions
 //
 // %%%%%%%%%% 用粒子群算法拟合模型的参数Lr、C2、Nr 和 T %%%%%%%%%%%%%%%%%%%
 //
-// Arguments    : const double data[64]
+// Arguments    : const double data[]
 //                double qb_0
 //                double t_known
 //                double *kr
 //                double *kb
 // Return Type  : void
 //
-void metrosquare(const double data[64], double qb_0, double t_known, double *kr,
+void metrosquare(const double data[], int size, double qb_0, double t_known, double *kr,
                  double *kb)
 {
   double p_best_x[1000];
@@ -55,10 +56,10 @@ void metrosquare(const double data[64], double qb_0, double t_known, double *kr,
   if (!isInitialized_metrosquare) {
     metrosquare_initialize();
   }
-  delta = data[32] / qb_0;
+  delta = data[size/2] / qb_0;
   unit_t = data[1] - data[0];
   kr_max = qb_0 / unit_t * delta;
-  kb_max = data[32] / unit_t * delta;
+  kb_max = data[size/2] / unit_t * delta;
   //  个体学习参数
   //  种群学习参数
   //  粒子数
@@ -74,7 +75,7 @@ void metrosquare(const double data[64], double qb_0, double t_known, double *kr,
   for (i = 0; i < 500; i++) {
     b_x[0] = x[i] / delta;
     b_x[1] = x[i + 500] / delta;
-    fit[i] = my_error_square(b_x, data, qb_0, t_known);
+    fit[i] = my_error_square(b_x, data, qb_0, t_known, size);
   }
   std::copy(&x[0], &x[1000], &p_best_x[0]);
   //  每个粒子搜索过的最好的位置
@@ -158,7 +159,7 @@ void metrosquare(const double data[64], double qb_0, double t_known, double *kr,
       for (j = 0; j < 500; j++) {
         b_x[0] = x[j] / delta;
         b_x[1] = x[j + 500] / delta;
-        fit[j] = my_error_square(b_x, data, qb_0, t_known);
+        fit[j] = my_error_square(b_x, data, qb_0, t_known, size);
       }
       std::copy(&x[0], &x[1000], &p_best_x[0]);
       //  每个粒子搜索过的最好的位置
@@ -194,7 +195,7 @@ void metrosquare(const double data[64], double qb_0, double t_known, double *kr,
       }
       b_x[0] = d / delta;
       b_x[1] = unit_t / delta;
-      w_tmp = my_error_square(b_x, data, qb_0, t_known);
+      w_tmp = my_error_square(b_x, data, qb_0, t_known, size);
       if (w_tmp < fit[j]) {
         p_best_x[j] = d;
         p_best_x[j + 500] = unit_t;
@@ -212,6 +213,11 @@ void metrosquare(const double data[64], double qb_0, double t_known, double *kr,
       }
     }
   }
+  
+  std::cout << "=====================" << std::endl;
+  std::cout << "p_best_x: " << p_best_x << std::endl;
+  std::cout << "g_best_x_idx_0: " << g_best_x_idx_0 << std::endl;
+  std::cout << "g_best_x_idx_1: " << g_best_x_idx_1 << std::endl;
   //  将周期性常数放到一个周期中
   *kr = g_best_x_idx_0 / delta;
   *kb = g_best_x_idx_1 / delta;

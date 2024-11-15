@@ -14,7 +14,7 @@
 #include <cstdlib>
 
 // Function Declarations
-extern void metrosquare(const double data[64], double qb_0, double t_known,
+extern void metrosquare(const double data[], int size, double qb_0, double t_known,
                         double *kr, double *kb);
 
 #endif

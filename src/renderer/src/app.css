@@ -10,6 +10,17 @@ body {
   z-index: 1;
 }
 
+.navbar {
+  height: 40px;
+  background-color: #00b96b20;
+  -webkit-app-region: drag;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
 /* code {
   font-weight: 600;
   padding: 3px 5px;

@@ -17,7 +17,7 @@
 namespace coder {
 void b_eml_find(const boolean_T x[500], int i_data[], int i_size[2]);
 
-void eml_find(const boolean_T x[64], int i_data[], int *i_size, int j_data[],
+void eml_find(const boolean_T x[], int x_size, int i_data[], int *i_size, int j_data[],
               int *j_size);
 
 } // namespace coder

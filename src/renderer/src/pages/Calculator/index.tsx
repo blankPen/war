@@ -31,15 +31,17 @@ export default function Deduction(): JSX.Element {
   }, [step])
 
   return (
-    <>
+    <div className="container overflow-auto">
       <Flex vertical className="w-full h-full p-10">
+        <div style={{ height: 40, minHeight: 40 }}></div>
         <Steps
           className="mb-10"
+          style={{ height: 60, minHeight: 60 }}
           current={step}
           items={stepItems.map(({ title, description, icon }) => ({ title, description, icon }))}
         />
         {stepItems[step]?.renderContent()}
       </Flex>
-    </>
+    </div>
   )
 }

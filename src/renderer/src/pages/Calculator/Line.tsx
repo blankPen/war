@@ -6,9 +6,9 @@ const ChatLine = memo(function Line2({
   qtsquare,
   data
 }: {
-  data: number[]
-  qtfisher: number[]
-  qtsquare: number[]
+  data: any[]
+  qtfisher: any[]
+  qtsquare: any[]
 }) {
   // 添加容器引用和尺寸状态
   const containerRef = useRef<HTMLDivElement>(null)
@@ -44,14 +44,11 @@ const ChatLine = memo(function Line2({
   const config: LineConfig = {
     // title: '军事冲突演化模拟平台',
     data: [
-      ...data.map((v, i) => ({
-        time: i,
-        value: v,
-        type: '历史战役'
-        // color: i > 20 ? 'c2' : 'c1'
-      })),
-      ...qtfisher.map((v, i) => ({ time: i, value: v, color: 'c3', type: '本模型' })),
-      ...qtsquare.map((v, i) => ({ time: i, value: v, color: 'c4', type: '兰切斯特模型' }))
+      ...data.map((v) => ({ ...v, type: '历史战役' })),
+      ...qtfisher.map((v) => ({ ...v, type: '本模型' })),
+      ...qtsquare.map((v) => ({ ...v, type: '兰切斯特模型' }))
+      // ...qtfisher.map((v, i) => ({ time: i, value: v, color: 'c3', type: '本模型' })),
+      // ...qtsquare.map((v, i) => ({ time: i, value: v, color: 'c4', type: '兰切斯特模型' }))
     ],
     // color: ({ type, ...res }) => {
     //   console.log(type, res)
@@ -65,20 +62,26 @@ const ChatLine = memo(function Line2({
     },
     point: {
       shapeField: 'square',
-      sizeField: 2
+      sizeField: 2,
+      tooltip: false
     },
     xField: 'time',
-    yField: 'value',
-    seriesField: 'type',
+    yField: 'troops',
+    // seriesField: 'type',
     colorField: 'type',
-    yAxis: {
+    xAxis: {
       label: {
-        formatter: (v) => `${(v / 1000).toFixed(2)} k`
+        formatter: (v) => `${v}天`
       }
     },
-    legend: {
-      position: 'right-top'
+    yAxis: {
+      label: {
+        formatter: (v) => `${(v / 1000).toFixed(2)}k`
+      }
     },
+    // legend: {
+    //   position: 'right-top'
+    // },
     smooth: true,
     animate: { enter: { type: 'growInX' } },
     ...dimensions,

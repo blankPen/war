@@ -21,14 +21,14 @@
 //
 // %%%%%%%%%% 用粒子群算法拟合模型的参数Lr、C2、Nr 和 T %%%%%%%%%%%%%%%%%%%
 //
-// Arguments    : const double data[64]
+// Arguments    : const double data[]
 //                double t_known
 //                double *c1
 //                double *c2
 //                double *c3
 // Return Type  : void
 //
-void prediction_POS(const double data[64], double t_known, double *c1,
+void prediction_POS(const double data[], int size, double t_known, double *c1,
                     double *c2, double *c3)
 {
   double p_best_x[1500];
@@ -72,7 +72,7 @@ void prediction_POS(const double data[64], double t_known, double *c1,
     b_x[0] = x[i];
     b_x[1] = x[i + 500];
     b_x[2] = x[i + 1000];
-    fit[i] = prediction_my_error(b_x, data, t_known);
+    fit[i] = prediction_my_error(b_x, data, t_known, size);
   }
   std::copy(&x[0], &x[1500], &p_best_x[0]);
   //  每个粒子搜索过的最好的位置
@@ -162,7 +162,7 @@ void prediction_POS(const double data[64], double t_known, double *c1,
         b_x[0] = x[j];
         b_x[1] = x[j + 500];
         b_x[2] = x[j + 1000];
-        fit[j] = prediction_my_error(b_x, data, t_known);
+        fit[j] = prediction_my_error(b_x, data, t_known, size);
       }
       std::copy(&x[0], &x[1500], &p_best_x[0]);
       //  每个粒子搜索过的最好的位置
@@ -194,7 +194,7 @@ void prediction_POS(const double data[64], double t_known, double *c1,
       w_tmp = x[j + 500];
       b_x[1] = w_tmp;
       b_x[2] = d;
-      d1 = prediction_my_error(b_x, data, t_known);
+      d1 = prediction_my_error(b_x, data, t_known, size);
       if (d1 < fit[j]) {
         p_best_x[j] = minval;
         p_best_x[j + 500] = w_tmp;

@@ -16,14 +16,16 @@
     "build": "npm run typecheck && electron-vite build",
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
-    "build:win": "npm run build && electron-builder --win",
+    "build:win": "electron-vite build &&  electron-builder --win",
     "build:mac": "electron-vite build && electron-builder --mac",
     "build:linux": "electron-vite build && electron-builder --linux",
-    "build:cpp": "node-gyp configure && node-gyp build"
+    "build:cpp": "node-gyp configure && node-gyp build",
+    "build:cpp2": "node-gyp rebuild --arch ia32"
   },
   "dependencies": {
     "@ant-design/charts": "^2.2.1",
     "@ant-design/plots": "^2.3.2",
+    "@ant-design/pro-components": "^2.8.1",
     "@antv/g2plot": "^2.4.32",
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
@@ -34,8 +36,10 @@
     "clsx": "^2.1.1",
     "electron-reloader": "^1.2.3",
     "node-addon-api": "^8.2.1",
+    "particles.js": "^2.0.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
+    "xlsx": "^0.18.5",
     "zustand": "^5.0.1"
   },
   "devDependencies": {

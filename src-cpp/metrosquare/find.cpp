@@ -47,14 +47,14 @@ void b_eml_find(const boolean_T x[500], int i_data[], int i_size[2])
 }
 
 //
-// Arguments    : const boolean_T x[64]
+// Arguments    : const boolean_T x[]
 //                int i_data[]
 //                int *i_size
 //                int j_data[]
 //                int *j_size
 // Return Type  : void
 //
-void eml_find(const boolean_T x[64], int i_data[], int *i_size, int j_data[],
+void eml_find(const boolean_T x[], int x_size, int i_data[], int *i_size, int j_data[],
               int *j_size)
 {
   int idx;
@@ -72,7 +72,7 @@ void eml_find(const boolean_T x[64], int i_data[], int *i_size, int j_data[],
       idx++;
       i_data[idx - 1] = ii;
       j_data[idx - 1] = jj;
-      if (idx >= 64) {
+      if (idx >= x_size) {
         exitg1 = true;
       } else {
         guard1 = true;
@@ -82,7 +82,7 @@ void eml_find(const boolean_T x[64], int i_data[], int *i_size, int j_data[],
     }
     if (guard1) {
       ii++;
-      if (ii > 32) {
+      if (ii > x_size / 2) {
         ii = 1;
         jj++;
       }

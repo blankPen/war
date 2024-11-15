@@ -32,15 +32,20 @@ async function withTiming<T>(fn: () => Promise<T>): Promise<T> {
   const start = Date.now()
   const result = await fn()
   const end = Date.now()
-  console.log(`计算时间: ${end - start}ms`)
+  console.log(`run time: ${end - start}ms`)
   return result
 }
 
 ipcMain.handle('calculator', async (_, params) => {
-  return withTiming(() => createWorker('calculator', params))
+  console.log('calculator', params)
+  const res = await withTiming(() => createWorker('calculator', params))
+  console.log(res)
+  return res || 0
 })
 
 ipcMain.handle('probabilityPIMC', async (_, params) => {
-  console.log(params)
-  return withTiming(() => createWorker('probabilityPIMC', params))
+  console.log('probabilityPIMC', params)
+  const res = await withTiming(() => createWorker('probabilityPIMC', params))
+  console.log('probabilityPIMC', res)
+  return res
 })

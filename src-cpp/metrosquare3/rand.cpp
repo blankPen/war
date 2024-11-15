@@ -2,7 +2,7 @@
 // File: rand.cpp
 //
 // MATLAB Coder version            : 5.3
-// C/C++ source code generated on  : 04-Nov-2024 13:13:25
+// C/C++ source code generated on  : 12-Nov-2024 22:50:14
 //
 
 // Include Files
@@ -25,14 +25,35 @@ void b_rand(double r[1000])
 }
 
 //
+// Arguments    : double r[2]
+// Return Type  : void
+//
+void c_rand(double r[2])
+{
+  r[0] = eml_rand_mt19937ar(state);
+  r[1] = eml_rand_mt19937ar(state);
+}
+
+//
 // Arguments    : double r[1500]
 // Return Type  : void
 //
-void c_rand(double r[1500])
+void d_rand(double r[1500])
 {
   for (int k{0}; k < 1500; k++) {
     r[k] = eml_rand_mt19937ar(state);
   }
+}
+
+//
+// Arguments    : double r[3]
+// Return Type  : void
+//
+void e_rand(double r[3])
+{
+  r[0] = eml_rand_mt19937ar(state);
+  r[1] = eml_rand_mt19937ar(state);
+  r[2] = eml_rand_mt19937ar(state);
 }
 
 } // namespace coder

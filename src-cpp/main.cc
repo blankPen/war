@@ -1,4 +1,5 @@
 #include <napi.h>
+#include <stdint.h>
 #include "main.h"
 #include "metrosquare/run_main.h"
 #include "metrosquare/probability_PIMC.h"
@@ -6,17 +7,12 @@
 #include "metrosquare/my_error_square.h"
 #include <iostream>
 
-Napi::Array cpp2NapiArray(const Napi::Env &env, double *array, uint32_t length)
+Napi::Array cpp2NapiArray(const Napi::Env &env, double *array, int length)
 {
-  // 创建一个长度为32的Napi::Array
   Napi::Array arr = Napi::Array::New(env, length);
-
-  // 遍历数组并设置Napi::Array的每个元素
-  for (uint32_t i = 0; i < length; ++i)
-  {
+  for (int i = 0; i < length; i++){
     arr.Set(i, array[i]);
   }
-
   return arr;
 }
 
@@ -31,6 +27,7 @@ double *napi2CppDoubleArray(const Napi::Array arr)
   return data;
 }
 
+
 Napi::Value probabilityPIMC(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
@@ -39,11 +36,13 @@ Napi::Value probabilityPIMC(const Napi::CallbackInfo &info)
   Napi::Array arr = info[2].As<Napi::Array>();
   double t_known = info[3].As<Napi::Number>();
   double *data = napi2CppDoubleArray(arr);
-  double num_grid_points_r = std::round(data[32] / 100.0) * 20.0;
+  int size = arr.Length();
+  
+  double num_grid_points_r = std::round(data[size / 2] / 100.0) * 20.0;
 
   // double kr, double kb, const double data[64],
   //                         double t_known, double num_grid_points_r
-  double p = probability_PIMC(kr, kb, data, t_known, num_grid_points_r);
+  double p = probability_PIMC(kr, kb, data, t_known, num_grid_points_r, size);
   // return cpp2NapiArray(env, data, 64);
   return Napi::Number::New(env, p);
 }
@@ -53,6 +52,7 @@ Napi::Value calculator(const Napi::CallbackInfo &info)
   Napi::Env env = info.Env();
 
   Napi::Array arr = info[0].As<Napi::Array>();
+  int size = arr.Length();
 
   double *data = napi2CppDoubleArray(arr);
   double qb_0 = info[1].As<Napi::Number>();
@@ -64,17 +64,21 @@ Napi::Value calculator(const Napi::CallbackInfo &info)
   double c2;
   double c3;
   double probability;
-  double t_data[32];
+  double* t_data = new double[size];
   int t_size;
   double qr_0;
-  double qtsquare_data[32];
+  double* qtsquare_data = new double[size];
   int qtsquare_size;
-  double qtfisher_data[32];
+  double* qtfisher_data = new double[size];
   int qtfisher_size;
   double error_code;
 
+
+    std::cout << "This is an info message" << size << std::endl;
   run_main(
-      data, qb_0,
+      data,
+      size, 
+      qb_0,
       t_known,
       &kr,
       &kb,
@@ -91,13 +95,12 @@ Napi::Value calculator(const Napi::CallbackInfo &info)
       *(int(*)[1]) & qtfisher_size,
       &error_code);
 
+
   double bx1[3] = {c1, c2, c3};
   double bx2[2] = {kr, kb};
-  double norm = prediction_my_error(bx1, data, t_known);
-  double norm2 = my_error_square(bx2, data, qb_0, t_known);
+  double norm = prediction_my_error(bx1, data, t_known, size);
+  double norm2 = my_error_square(bx2, data, qb_0, t_known, size);
 
-  // fprintf('本项目模型的二范数：%.3f\n',prediction_my_error([c1,c2,c3],data,t_known))
-  // fprintf('兰彻斯特模型的二范数：%.3f\n',my_error_square([kr,kb],data,qb_0,t_known))
 
   // Function Declarations
   // extern void run_main(const double data[64], double qb_0, double t_known,
@@ -115,10 +118,10 @@ Napi::Value calculator(const Napi::CallbackInfo &info)
   obj.Set("c2", c2);
   obj.Set("c3", c3);
   obj.Set("probability", probability);
-  obj.Set("t_data", cpp2NapiArray(env, t_data, 32));
+  obj.Set("t_data", cpp2NapiArray(env, t_data, t_size));
   obj.Set("qr_0", qr_0);
-  obj.Set("qtsquare_data", cpp2NapiArray(env, qtsquare_data, 32));
-  obj.Set("qtfisher_data", cpp2NapiArray(env, qtfisher_data, 32));
+  obj.Set("qtsquare_data", cpp2NapiArray(env, qtsquare_data, qtsquare_size));
+  obj.Set("qtfisher_data", cpp2NapiArray(env, qtfisher_data, qtfisher_size));
   obj.Set("t_size", t_size);
   obj.Set("qtsquare_size", qtsquare_size);
   obj.Set("qtfisher_size", qtfisher_size);

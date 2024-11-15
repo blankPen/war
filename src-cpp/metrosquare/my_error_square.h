@@ -15,7 +15,7 @@
 
 // Function Declarations
 extern double my_error_square(const double v[2], const double data[64],
-                              double qb_0, double t_known);
+                              double qb_0, double t_known, int size);
 
 #endif
 //

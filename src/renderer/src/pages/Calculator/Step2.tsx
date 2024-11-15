@@ -1,4 +1,4 @@
-import { Flex, Form, Button, Progress, Input } from 'antd'
+import { Flex, Form, Progress, Table } from 'antd'
 import { useCalculatorStore } from '@/store'
 import { useEffect, useRef, useState } from 'react'
 import { Box } from '@/components/Box'
@@ -35,7 +35,25 @@ export const Step2 = () => {
           className="w-full"
         >
           <Form.Item label="对照数据">
-            <Input.TextArea disabled readOnly value={params.compare_data} style={{ height: 200 }} />
+            <Table
+              bordered
+              size="small"
+              sticky
+              scroll={{ y: 200 }}
+              pagination={false}
+              rowKey="dataIndex"
+              columns={[
+                {
+                  title: '天数',
+                  dataIndex: 'time'
+                },
+                {
+                  title: '兵力',
+                  dataIndex: 'troops'
+                }
+              ]}
+              dataSource={params.compare_data}
+            />
           </Form.Item>
           <Form.Item label="初始兵力">{params.inital_troops}</Form.Item>
           <Form.Item label="已知天数">{params.time_known}</Form.Item>

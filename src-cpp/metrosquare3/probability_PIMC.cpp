@@ -2,7 +2,7 @@
 // File: probability_PIMC.cpp
 //
 // MATLAB Coder version            : 5.3
-// C/C++ source code generated on  : 04-Nov-2024 13:13:25
+// C/C++ source code generated on  : 12-Nov-2024 22:50:14
 //
 
 // Include Files
@@ -10,6 +10,7 @@
 #include "metrosquare_data.h"
 #include "metrosquare_initialize.h"
 #include "rt_nonfinite.h"
+#include "sqrt.h"
 #include "coder_array.h"
 #include <cmath>
 #include <cstddef>
@@ -74,82 +75,131 @@ static double rt_powd_snf(double u0, double u1)
 //
 // Arguments    : double kr
 //                double kb
-//                const double data[64]
+//                const coder::array<double, 2U> &data
 //                double t_known
 //                double num_grid_points_r
 // Return Type  : double
 //
-double probability_PIMC(double kr, double kb, const double data[64],
-                        double t_known, double num_grid_points_r)
+double probability_PIMC(double kr, double kb,
+                        const coder::array<double, 2U> &data, double t_known,
+                        double num_grid_points_r)
 {
   coder::array<double, 2U> th_gailv;
   coder::array<double, 1U> box;
   coder::array<char, 2U> charStr;
+  creal_T dc;
   double A_real_tmp;
+  double A_real_tmp_tmp;
   double B_real_tmp;
-  double S_real;
-  double S_real_tmp;
   double a;
   double a_tmp;
+  double apnd;
+  double b_A_real_tmp_tmp;
   double b_a_tmp;
-  double bsum;
-  double d;
+  double b_tmp;
+  double cdiff;
   double m_r;
-  double omega;
+  double ndbl;
   double qr_0;
-  double sum_gailv;
-  double t_tmp;
-  int hi;
+  double qr_real;
+  double t;
+  int k;
+  int nblocks;
   int nbytes;
-  int xblockoffset;
+  int nm1d2;
   if (!isInitialized_metrosquare) {
     metrosquare_initialize();
   }
-  qr_0 = data[32];
-  nbytes = snprintf(nullptr, 0, "%f", data[32]);
+  qr_0 = data[data.size(0)];
+  nbytes = snprintf(nullptr, 0, "%f", qr_0);
   charStr.set_size(1, nbytes + 1);
-  snprintf(&charStr[0], (size_t)(nbytes + 1), "%f", data[32]);
+  snprintf(&charStr[0], (size_t)(nbytes + 1), "%f", qr_0);
   if (1 > nbytes) {
     nbytes = 0;
   }
   m_r = rt_powd_snf(10.0, -static_cast<double>(nbytes) - 1.0);
-  t_tmp = data[static_cast<int>(t_known + 1.0) - 1];
-  omega = std::sqrt(kr * kb);
-  th_gailv.set_size(1, 0);
-  sum_gailv = std::exp(-omega * t_tmp);
-  bsum = std::exp(omega * t_tmp);
-  A_real_tmp = std::exp(-omega * 0.0);
-  a_tmp = data[static_cast<int>(t_known + 1.0) + 31];
-  a = (a_tmp * A_real_tmp - data[32] * sum_gailv) / (bsum - sum_gailv);
-  B_real_tmp = std::exp(omega * 0.0);
-  b_a_tmp = std::exp(omega * data[static_cast<int>(t_known + 1.0) - 1]) -
-            std::exp(-omega * data[static_cast<int>(t_known + 1.0) - 1]);
-  sum_gailv = (data[32] * bsum - a_tmp * B_real_tmp) / b_a_tmp;
-  bsum = -std::exp(-2.0 * t_tmp * omega) + std::exp(-2.0 * omega * 0.0);
-  S_real_tmp = std::exp(2.0 * t_tmp * omega) - std::exp(2.0 * omega * 0.0);
-  S_real = (0.5 * (sum_gailv * sum_gailv) * bsum + 0.5 * (a * a) * S_real_tmp) *
-           m_r * omega;
-  d = a_tmp - num_grid_points_r;
-  hi = static_cast<int>((a_tmp + num_grid_points_r) + (1.0 - d));
-  for (nbytes = 0; nbytes < hi; nbytes++) {
-    sum_gailv = d + static_cast<double>(nbytes);
-    a = (sum_gailv * A_real_tmp - qr_0 * std::exp(-omega * t_tmp)) / b_a_tmp;
-    sum_gailv =
-        (qr_0 * std::exp(omega * t_tmp) - sum_gailv * B_real_tmp) / b_a_tmp;
-    xblockoffset = th_gailv.size(1);
+  t = data[static_cast<int>(t_known + 1.0) - 1];
+  qr_real = data[(static_cast<int>(t_known + 1.0) + data.size(0)) - 1];
+  dc.re = kr * kb;
+  dc.im = 0.0;
+  coder::b_sqrt(&dc);
+  a_tmp = qr_real - num_grid_points_r;
+  b_tmp = qr_real + num_grid_points_r;
+  if (std::isnan(a_tmp) || std::isnan(b_tmp)) {
+    th_gailv.set_size(th_gailv.size(0), 1);
+  } else if (b_tmp < a_tmp) {
+    th_gailv.set_size(th_gailv.size(0), 0);
+  } else if ((std::isinf(a_tmp) || std::isinf(b_tmp)) && (a_tmp == b_tmp)) {
+    th_gailv.set_size(th_gailv.size(0), 1);
+  } else if (std::floor(a_tmp) == a_tmp) {
+    th_gailv.set_size(th_gailv.size(0),
+                      static_cast<int>(std::floor(b_tmp - a_tmp)) + 1);
+  } else {
+    ndbl = std::floor((b_tmp - a_tmp) + 0.5);
+    apnd = a_tmp + ndbl;
+    cdiff = apnd - b_tmp;
+    if (std::abs(cdiff) <
+        4.4408920985006262E-16 * std::fmax(std::abs(a_tmp), std::abs(b_tmp))) {
+      ndbl++;
+      apnd = b_tmp;
+    } else if (cdiff > 0.0) {
+      apnd = a_tmp + (ndbl - 1.0);
+    } else {
+      ndbl++;
+    }
+    if (ndbl >= 0.0) {
+      nbytes = static_cast<int>(ndbl);
+    } else {
+      nbytes = 0;
+    }
+    th_gailv.set_size(1, nbytes);
+    if ((nbytes > 0) && (nbytes > 1)) {
+      th_gailv[nbytes - 1] = apnd;
+      nm1d2 = (nbytes - 1) / 2;
+      for (k = 0; k <= nm1d2 - 2; k++) {
+        th_gailv[k + 1] = a_tmp + (static_cast<double>(k) + 1.0);
+        th_gailv[(nbytes - k) - 2] = apnd - (static_cast<double>(k) + 1.0);
+      }
+      if (nm1d2 << 1 == nbytes - 1) {
+        th_gailv[nm1d2] = (a_tmp + apnd) / 2.0;
+      } else {
+        th_gailv[nm1d2] = a_tmp + static_cast<double>(nm1d2);
+        th_gailv[nm1d2 + 1] = apnd - static_cast<double>(nm1d2);
+      }
+    }
+  }
+  nbytes = th_gailv.size(1);
+  th_gailv.set_size(1, nbytes);
+  for (nblocks = 0; nblocks < nbytes; nblocks++) {
+    th_gailv[nblocks] = 0.0;
+  }
+  A_real_tmp_tmp = std::exp(-dc.re * t);
+  b_A_real_tmp_tmp = std::exp(dc.re * t);
+  A_real_tmp = std::exp(-dc.re * 0.0);
+  a = (qr_real * A_real_tmp - qr_0 * A_real_tmp_tmp) /
+      (b_A_real_tmp_tmp - A_real_tmp_tmp);
+  B_real_tmp = std::exp(dc.re * 0.0);
+  b_a_tmp = std::exp(dc.re * t) - std::exp(-dc.re * t);
+  ndbl = (qr_0 * b_A_real_tmp_tmp - qr_real * B_real_tmp) / b_a_tmp;
+  qr_real = -std::exp(-2.0 * t * dc.re) + std::exp(-2.0 * dc.re * 0.0);
+  apnd = std::exp(2.0 * t * dc.re) - std::exp(2.0 * dc.re * 0.0);
+  cdiff = (0.5 * (ndbl * ndbl) * qr_real + 0.5 * (a * a) * apnd) * m_r * dc.re;
+  nblocks = static_cast<int>(b_tmp + (1.0 - a_tmp));
+  for (nm1d2 = 0; nm1d2 < nblocks; nm1d2++) {
+    ndbl = a_tmp + static_cast<double>(nm1d2);
+    a = (ndbl * A_real_tmp - qr_0 * A_real_tmp_tmp) / b_a_tmp;
+    ndbl = (qr_0 * b_A_real_tmp_tmp - ndbl * B_real_tmp) / b_a_tmp;
+    nbytes = th_gailv.size(1);
     th_gailv.set_size(1, th_gailv.size(1) + 1);
-    th_gailv[xblockoffset] = std::exp(
-        -((0.5 * (sum_gailv * sum_gailv) * bsum + 0.5 * (a * a) * S_real_tmp) *
-              m_r * omega -
-          S_real) *
+    th_gailv[nbytes] = std::exp(
+        -((0.5 * (ndbl * ndbl) * qr_real + 0.5 * (a * a) * apnd) * m_r * dc.re -
+          cdiff) *
         2.0);
   }
   if (th_gailv.size(1) == 0) {
-    sum_gailv = 0.0;
+    ndbl = 0.0;
   } else {
-    int k;
     int lastBlockLength;
-    int nblocks;
     if (th_gailv.size(1) <= 1024) {
       nbytes = th_gailv.size(1);
       lastBlockLength = 0;
@@ -164,48 +214,47 @@ double probability_PIMC(double kr, double kb, const double data[64],
         lastBlockLength = 1024;
       }
     }
-    sum_gailv = th_gailv[0];
+    ndbl = th_gailv[0];
     for (k = 2; k <= nbytes; k++) {
-      sum_gailv += th_gailv[k - 1];
+      ndbl += th_gailv[k - 1];
     }
-    for (nbytes = 2; nbytes <= nblocks; nbytes++) {
-      xblockoffset = (nbytes - 1) << 10;
-      bsum = th_gailv[xblockoffset];
-      if (nbytes == nblocks) {
-        hi = lastBlockLength;
+    for (int ib{2}; ib <= nblocks; ib++) {
+      nbytes = (ib - 1) << 10;
+      apnd = th_gailv[nbytes];
+      if (ib == nblocks) {
+        nm1d2 = lastBlockLength;
       } else {
-        hi = 1024;
+        nm1d2 = 1024;
       }
-      for (k = 2; k <= hi; k++) {
-        bsum += th_gailv[(xblockoffset + k) - 1];
+      for (k = 2; k <= nm1d2; k++) {
+        apnd += th_gailv[(nbytes + k) - 1];
       }
-      sum_gailv += bsum;
+      ndbl += apnd;
     }
   }
   th_gailv.set_size(1, th_gailv.size(1));
   nbytes = th_gailv.size(1) - 1;
-  for (hi = 0; hi <= nbytes; hi++) {
-    th_gailv[hi] = th_gailv[hi] / sum_gailv;
+  for (nblocks = 0; nblocks <= nbytes; nblocks++) {
+    th_gailv[nblocks] = th_gailv[nblocks] / ndbl;
   }
   // 分柱状区间
-  sum_gailv = num_grid_points_r / 5.0;
+  ndbl = num_grid_points_r / 5.0;
   // 区间宽度
-  bsum = num_grid_points_r * 2.0 / sum_gailv;
+  apnd = num_grid_points_r * 2.0 / ndbl;
   // 区间数量
-  nbytes = static_cast<int>(bsum);
+  nbytes = static_cast<int>(apnd);
   box.set_size(nbytes);
-  for (hi = 0; hi < nbytes; hi++) {
-    box[hi] = 0.0;
+  for (nblocks = 0; nblocks < nbytes; nblocks++) {
+    box[nblocks] = 0.0;
   }
   // 建立区间进行统计
-  hi = static_cast<int>(num_grid_points_r * 2.0);
-  for (nbytes = 0; nbytes < hi; nbytes++) {
-    S_real_tmp =
-        std::trunc(((static_cast<double>(nbytes) + 1.0) - 1.0) / sum_gailv);
-    box[static_cast<int>(S_real_tmp + 1.0) - 1] =
-        box[static_cast<int>(S_real_tmp + 1.0) - 1] + th_gailv[nbytes];
+  nblocks = static_cast<int>(num_grid_points_r * 2.0);
+  for (nbytes = 0; nbytes < nblocks; nbytes++) {
+    cdiff = std::trunc(((static_cast<double>(nbytes) + 1.0) - 1.0) / ndbl);
+    box[static_cast<int>(cdiff + 1.0) - 1] =
+        box[static_cast<int>(cdiff + 1.0) - 1] + th_gailv[nbytes];
   }
-  return box[static_cast<int>(std::trunc(bsum / 2.0) + 1.0) - 1];
+  return box[static_cast<int>(std::trunc(apnd / 2.0) + 1.0) - 1];
 }
 
 //

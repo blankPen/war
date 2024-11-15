@@ -15,7 +15,7 @@
 
 // Function Declarations
 extern double prediction_my_error(const double v[3], const double data[64],
-                                  double t_known);
+                                  double t_known, int size);
 
 #endif
 //
